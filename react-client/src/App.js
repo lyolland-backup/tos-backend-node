@@ -9,12 +9,25 @@ import SignUp from "./views/SignUp";
 import SignIn from "./views/SignIn";
 
 class App extends Component {
-
   state = {
     user: {
       username: null
     }
   };
+
+  componentDidMount() {
+    console.log("App has mounted ... 🌈")
+    API.validateUser().then(user => {
+      if (user.user) {
+        this.setState({
+          user: {
+            username: user.user.data.attributes.username,
+            // user_id: user.user.data.attributes.id
+          }
+        });
+      }
+    });
+  }
 
   submitSignUp = user => {
     console.log("signing up ... 🤓");

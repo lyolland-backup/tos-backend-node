@@ -18,7 +18,7 @@ class Home extends Component {
             </Link>
           </div>
         ) : (
-          <Button onClick={this.props.logOut}>Log Out</Button>
+          <Button className="log-out" onClick={this.props.logOut}>Log Out</Button>
         )}
       </div>
     );
