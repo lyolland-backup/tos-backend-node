@@ -4,9 +4,10 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Message,
-  Segment
+  Segment,
+  Dimmer,
+  Loader
 } from "semantic-ui-react";
 
 import { Link } from "react-router-dom";
@@ -28,7 +29,13 @@ class SignIn extends Component {
   };
 
   render() {
-    return (
+    const view = this.props.loggingUser ? (
+      <Segment textAlign="center" style={{ height: "100vh" }}>
+        <Dimmer active inverted>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
+      </Segment>
+    ) : (
       <Grid
         textAlign="center"
         style={{ height: "100vh" }}
@@ -71,6 +78,7 @@ class SignIn extends Component {
         </Grid.Column>
       </Grid>
     );
+    return <div>{view}</div>;
   }
 }
 

@@ -43,12 +43,11 @@ class App extends Component {
   }
 
   validateForm = user => {
-    const testUser = {
+    const userData = {
       username: user.username,
       password: user.password
     };
-    const result = Joi.validate(testUser, schema);
-    console.log(result)
+    const result = Joi.validate(userData, schema);
     return !result.error ? true : false;
   };
 
@@ -66,23 +65,38 @@ class App extends Component {
           });
           console.log("here are the props => 🎁", this.props);
           this.props.history.push("/"); // takes user back to the 🏠 page
-        }, 2000);
-       
+        }, 1000);
       });
-     
     }
   };
 
   submitSignIn = user => {
-    console.log("signing in ... 🤓");
-    API.signInUser(user).then(user =>
+    if (this.validateForm(user)) {
+      console.log("signing in ... 🤓");
       this.setState({
-        user: { username: user.data.attributes.username }
-        // user_id: user.data.attributes.id
-      })
-    );
-    console.log("here are the props => 🎁", this.props);
-    this.props.history.push("/"); // takes user back to the 🏠 page
+        loggingUser: true
+      });
+      API.signInUser(user).then(user => {
+        setTimeout(() => {
+          this.setState({
+            loggingUser: false,
+            user: { username: user.data.attributes.username }
+          });
+          console.log("here are the props => 🎁", this.props);
+          this.props.history.push("/"); // takes user back to the 🏠 page
+        }, 1000);
+      });
+    }
+
+    // console.log("signing in ... 🤓");
+    // API.signInUser(user).then(user =>
+    //   this.setState({
+    //     user: { username: user.data.attributes.username }
+    //     // user_id: user.data.attributes.id
+    //   })
+    // );
+    // console.log("here are the props => 🎁", this.props);
+    // this.props.history.push("/"); // takes user back to the 🏠 page
   };
 
   signOut = () => {
@@ -94,32 +108,33 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="container">
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Home user={this.state.user} logOut={this.signOut} />
-              )}
-            />
-            <Route
-              exact
-              path="/signup"
-              render={() => (
-                <SignUp
-                  submitSignUp={this.submitSignUp}
-                  loggingUser={this.state.loggingUser}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/signin"
-              render={() => <SignIn submitSignIn={this.submitSignIn} />}
-            />
-          </Switch>
-        </div>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => <Home user={this.state.user} logOut={this.signOut} />}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={() => (
+              <SignUp
+                submitSignUp={this.submitSignUp}
+                loggingUser={this.state.loggingUser}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/signin"
+            render={() => (
+              <SignIn
+                submitSignIn={this.submitSignIn}
+                loggingUser={this.state.loggingUser}
+              />
+            )}
+          />
+        </Switch>
       </div>
     );
   }
