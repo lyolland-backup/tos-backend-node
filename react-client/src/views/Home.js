@@ -1,12 +1,25 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "semantic-ui-react";
 
 class Home extends Component {
   render() {
+    const { user } = this.props;
+    console.log(user);
     return (
       <div className="hero-home">
-        <button onClick={this.props.testClick}>test click</button>
-        <Link to="/signup">Sign Up Now</Link>
+        {user.username === null ? (
+          <div className="button-block">
+            <Link className="sign-up-button" to="/signup">
+              Sign Up
+            </Link>
+            <Link className="sign-in-button" to="/signin">
+              Sign In
+            </Link>
+          </div>
+        ) : (
+          <Button onClick={this.props.logOut}>Log Out</Button>
+        )}
       </div>
     );
   }

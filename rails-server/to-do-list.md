@@ -11,23 +11,23 @@
     - [x] password (hashed)
     - [x] type
 
-- [] set up basic routes
+- [x] set up basic routes
 
-- [] set up controllers
-    - [] application controller
-        - [] get token (request headers)
-        - [] encode token - JWT.encode
-        - [] decode token- JWT.decode
-        - [] is logged in?
-        - [] set current user
+- [x] set up controllers
+    - [x] application controller
+        - [x] get token (request headers)
+        - [x] encode token - JWT.encode
+        - [x] decode token- JWT.decode
+        - [x] is logged in?
+        - [x] set current user
 
-    - [] user controller
-        - [] index - render json
+    - [x] user controller
+        - [x] index - render json
         - [] show - render json
-        - [] create - render json
+        - [x] create - render json
 
-    - [] auth controller 
-        - [] create 
-        - [] validate token
+    - [x] auth controller 
+        - [x] create 
+        - [x] validate token
 
-- [] set up user serializer (fast json serializer)
+- [x] set up user serializer (fast json serializer)

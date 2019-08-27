@@ -4,7 +4,6 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Segment
 } from "semantic-ui-react";
@@ -16,11 +15,12 @@ class SignUp extends Component {
     password: ""
   };
 
-  handleInputchange = e => {
+  handleInputchange = e =>
     this.setState({
       [e.target.name]: e.target.value
     });
-  };
+
+  handleSubmit = () => this.props.submitSignUp(this.state);
 
   render() {
     return (
@@ -33,7 +33,7 @@ class SignUp extends Component {
           <Header as="h2" color="purple" textAlign="center">
             Sign up for your free account
           </Header>
-          <Form size="large">
+          <Form size="large" onSubmit={this.handleSubmit}>
             <Segment stacked>
               {/* <small>enter a unique username. min 6 chars.</small> */}
               <Form.Input
@@ -54,7 +54,7 @@ class SignUp extends Component {
                 name="password"
                 onChange={this.handleInputchange}
               />
-              <Button color="purple" fluid size="large">
+              <Button color="purple" fluid size="large" type="submit">
                 Sign Up
               </Button>
             </Segment>

@@ -1,14 +1,50 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import { Route, Switch } from "react-router-dom";
-import Home from "./views/Home";
+import { Route, Switch, withRouter } from "react-router-dom";
+import API from "./adapters/API";
 
+import Home from "./views/Home";
 import SignUp from "./views/SignUp";
 import SignIn from "./views/SignIn";
 
 class App extends Component {
-  testClick = () => console.log("call back worked ...🙃");
+
+  state = {
+    user: {
+      username: null
+    }
+  };
+
+  submitSignUp = user => {
+    console.log("signing up ... 🤓");
+    API.signUpUser(user).then(user => {
+      this.setState({
+        user: { username: user.data.attributes.username }
+        // user_id: user.data.attributes.id
+      });
+    });
+    console.log("here are the props => 🎁", this.props);
+    this.props.history.push("/"); // takes user back to the 🏠 page
+  };
+
+  submitSignIn = user => {
+    console.log("signing in ... 🤓");
+    API.signInUser(user).then(user =>
+      this.setState({
+        user: { username: user.data.attributes.username }
+        // user_id: user.data.attributes.id
+      })
+    );
+    console.log("here are the props => 🎁", this.props);
+    this.props.history.push("/"); // takes user back to the 🏠 page
+  };
+
+  logOut = () => {
+    console.log("logging out ... 👋");
+    API.clearToken();
+    this.setState({ user: { username: null } });
+  };
 
   render() {
     return (
@@ -18,10 +54,20 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={() => <Home testClick={this.testClick} />}
+              render={() => (
+                <Home user={this.state.user} logOut={this.logOut} />
+              )}
             />
-            <Route exact path="/signup" render={() => <SignUp />} />
-            <Route exact path="/signin" render={() => <SignIn />} />
+            <Route
+              exact
+              path="/signup"
+              render={() => <SignUp submitSignUp={this.submitSignUp} />}
+            />
+            <Route
+              exact
+              path="/signin"
+              render={() => <SignIn submitSignIn={this.submitSignIn} />}
+            />
           </Switch>
         </div>
       </div>
@@ -29,4 +75,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -10,17 +10,19 @@ import {
 } from "semantic-ui-react";
 
 import { Link } from "react-router-dom";
+
 class SignIn extends Component {
   state = {
     username: "",
     password: ""
   };
 
-  handleInputchange = e => {
+  handleInputchange = e =>
     this.setState({
       [e.target.name]: e.target.value
     });
-  };
+
+  handleSubmit = () => this.props.submitSignIn(this.state);
 
   render() {
     return (
@@ -33,7 +35,7 @@ class SignIn extends Component {
           <Header as="h2" color="purple" textAlign="center">
             Sign in to your account
           </Header>
-          <Form size="large">
+          <Form size="large" onSubmit={this.handleSubmit}>
             <Segment stacked>
               <Form.Input
                 fluid
