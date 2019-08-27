@@ -5,7 +5,9 @@ import {
   Grid,
   Header,
   Message,
-  Segment
+  Segment,
+  Dimmer,
+  Loader
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
@@ -20,10 +22,20 @@ class SignUp extends Component {
       [e.target.name]: e.target.value
     });
 
-  handleSubmit = () => this.props.submitSignUp(this.state);
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.submitSignUp(this.state);
+  };
 
   render() {
-    return (
+    console.log(this.props.loggingUser);
+    const view = this.props.loggingUser ? (
+      <Segment>
+        <Dimmer active inverted>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
+      </Segment>
+    ) : (
       <Grid
         textAlign="center"
         style={{ height: "100vh" }}
@@ -68,6 +80,8 @@ class SignUp extends Component {
         </Grid.Column>
       </Grid>
     );
+
+    return <div>{view}</div>;
   }
 }
 

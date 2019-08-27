@@ -22,7 +22,10 @@ class SignIn extends Component {
       [e.target.name]: e.target.value
     });
 
-  handleSubmit = () => this.props.submitSignIn(this.state);
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.submitSignIn(this.state);
+  };
 
   render() {
     return (
@@ -55,7 +58,7 @@ class SignIn extends Component {
                 onChange={this.handleInputchange}
               />
               <Button color="purple" fluid size="large">
-                Sign Up
+                Sign In
               </Button>
             </Segment>
           </Form>
