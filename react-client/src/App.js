@@ -87,20 +87,13 @@ class App extends Component {
         }, 1000);
       });
     }
-
-    // console.log("signing in ... 🤓");
-    // API.signInUser(user).then(user =>
-    //   this.setState({
-    //     user: { username: user.data.attributes.username }
-    //     // user_id: user.data.attributes.id
-    //   })
-    // );
-    // console.log("here are the props => 🎁", this.props);
-    // this.props.history.push("/"); // takes user back to the 🏠 page
   };
 
-  signOut = () => {
-    console.log("signing out ... 👋");
+  signOut = e => {
+    e.preventDefault();
+    console.log("signing out ... 👋", this.props);
+    this.props.history.push("/");
+
     API.clearToken();
     this.setState({ user: { username: null } });
   };
@@ -112,7 +105,9 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={() => <Home user={this.state.user} logOut={this.signOut} />}
+            render={() => (
+              <Home user={this.state.user} signOut={this.signOut} />
+            )}
           />
           <Route
             exact

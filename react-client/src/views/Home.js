@@ -1,28 +1,16 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "semantic-ui-react";
+import React, { Component, Fragment } from "react";
+import MenuBar from "../components/MenuBar";
 
 class Home extends Component {
   render() {
-    const { user } = this.props;
+    const { user, signOut } = this.props;
     console.log(user);
     return (
-      <div className="hero-home">
-        {user.username === null ? (
-          <div className="button-block">
-            <Link className="sign-up-button" to="/signup">
-              Sign Up
-            </Link>
-            <Link className="sign-in-button" to="/signin">
-              Sign In
-            </Link>
-          </div>
-        ) : (
-          <Button className="log-out" onClick={this.props.logOut}>Log Out</Button>
-        )}
-      </div>
+      <Fragment>
+        <MenuBar user={user} signOut={signOut} />
+        <div className="hero-home"></div>
+      </Fragment>
     );
   }
 }
-
 export default Home;
