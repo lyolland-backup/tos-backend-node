@@ -1,0 +1,26 @@
+::selection {
+  background-color: #F9009A;
+}
+
+.App {
+  text-align: center;
+}
+
+.hero-home {
+  background-color: whitesmoke;
+  min-height: 80vh;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  border-bottom: 2px solid grey;
+}
+
+.App-link {
+  color: #61dafb;
+}
