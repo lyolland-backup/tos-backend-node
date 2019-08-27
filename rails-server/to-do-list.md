@@ -2,14 +2,14 @@
 
 - [] set up user model
     - [] relationships
-    - [] account validations
-        - [] username (uniqueness, case sensitive)
-        - [] password (min length)
+    - [x] account validations
+        - [x] username (uniqueness, case sensitive)
+        - [x] password (min length)
 
-- [] build schema
-    - [] username
-    - [] password (hashed)
-    - [] type
+- [x] build schema
+    - [x] username
+    - [x] password (hashed)
+    - [x] type
 
 - [] set up basic routes
 
