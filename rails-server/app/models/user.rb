@@ -5,8 +5,8 @@ class User < ApplicationRecord
   has_many :review
 
   validates :username, uniqueness: true
-  # validates :password, presence: true
-  # length: { minimum: 3 }
+  validates :password, presence: true, on: :create
+  #  allow_nil: true
 
   # removing password validation allows to update user attributes
   #  changing to pword digest works ...?
