@@ -1,16 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button, Menu, Input } from "semantic-ui-react";
+import { Button, Menu } from "semantic-ui-react";
 
 class MenuBar extends Component {
-  state = { activeItem: "home" };
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
   render() {
-    const { activeItem } = this.state;
-
     const { user, signOut } = this.props;
+    console.log(signOut)
     const menu =
       user.username === null ? (
         <Menu.Menu>
@@ -24,20 +19,22 @@ class MenuBar extends Component {
               <Link to="/signin">Sign in</Link>
             </Button>
           </Menu.Item>
-          <Menu.Item>
-            <Input icon="search" placeholder="Search..." />
-          </Menu.Item>
         </Menu.Menu>
       ) : (
-        <Menu.Item>
-          <Button basic>
-            <Link to="/signup" onClick={signOut}>
-              Sign Out
-            </Link>
-          </Button>
-        </Menu.Item>
+        <Menu.Menu>
+          <Menu.Item>
+            <Button basic onClick={signOut}>
+                Sign Out
+            </Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Button basic>
+              <Link to="/profile">Profile</Link>
+            </Button>
+          </Menu.Item>
+        </Menu.Menu>
       );
-    return <Menu secondary>{menu}</Menu>;
+    return <Menu>{menu}</Menu>;
   }
 }
 

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import { Route, Switch, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import API from "./adapters/API";
 import Joi from "joi";
-import Home from "./views/Home";
-import SignUp from "./views/SignUp";
-import SignIn from "./views/SignIn";
+
+import CreateRoutes from "./components/Routing";
 
 // this should map to user model validation in rails
 // validates :username, uniqueness: { case_sensitive: false }
@@ -58,14 +57,21 @@ class App extends Component {
         loggingUser: true
       });
       API.signUpUser(user).then(user => {
-        setTimeout(() => {
+        if (user.data !== null) {
+          setTimeout(() => {
+            this.setState({
+              loggingUser: false,
+              user: { username: user.data.attributes.username }
+            });
+            console.log("here are the props => 🎁", this.props);
+            this.props.history.push("/"); // takes user back to the 🏠 page
+          }, 1000);
+        } else {
+          console.log("user not valid 🤦‍ 🚑");
           this.setState({
-            loggingUser: false,
-            user: { username: user.data.attributes.username }
+            loggingUser: false // return an alert when sign in fails validation step - use the error handler on back end
           });
-          console.log("here are the props => 🎁", this.props);
-          this.props.history.push("/"); // takes user back to the 🏠 page
-        }, 1000);
+        }
       });
     }
   };
@@ -86,14 +92,13 @@ class App extends Component {
           this.props.history.push("/"); // takes user back to the 🏠 page
         }, 1000);
       });
-    }
+    } // return an alert when sign in fails validation step - use the error handler on back end
   };
 
   signOut = e => {
     e.preventDefault();
     console.log("signing out ... 👋", this.props);
     this.props.history.push("/");
-
     API.clearToken();
     this.setState({ user: { username: null } });
   };
@@ -101,35 +106,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Home user={this.state.user} signOut={this.signOut} />
-            )}
-          />
-          <Route
-            exact
-            path="/signup"
-            render={() => (
-              <SignUp
-                submitSignUp={this.submitSignUp}
-                loggingUser={this.state.loggingUser}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/signin"
-            render={() => (
-              <SignIn
-                submitSignIn={this.submitSignIn}
-                loggingUser={this.state.loggingUser}
-              />
-            )}
-          />
-        </Switch>
+        <CreateRoutes
+          user={this.state.user}
+          signOut={this.signOut}
+          submitSignUp={this.submitSignUp}
+          loggingUser={this.state.loggingUser}
+          submitSignIn={this.submitSignIn}
+        />
       </div>
     );
   }

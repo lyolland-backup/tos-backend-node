@@ -1,16 +1,17 @@
 import React, { Component, Fragment } from "react";
 import MenuBar from "../components/MenuBar";
 
-class Home extends Component {
+class NotFound extends Component {
   render() {
+    console.log("the page is not found 🕵️‍ ")
     const { user, signOut } = this.props;
-    console.log(this.props);
+
     return (
       <Fragment>
         <MenuBar user={user} signOut={signOut} />
-        <div className="hero-home"></div>
+        <h1>NOT FOUND</h1>
       </Fragment>
     );
   }
 }
-export default Home;
+export default NotFound;

@@ -1,6 +1,6 @@
 const endpoint = `http://localhost:3000/api/v1`;
 const signupURL = `${endpoint}/users`;
-const loginURL = `${endpoint}/login`;
+const signinURL = `${endpoint}/signin`;
 const validateURL = `${endpoint}/validate`;
 
 const jsonify = resp => {
@@ -59,7 +59,7 @@ const signInUser = user => {
     },
     body: JSON.stringify({ user })
   };
-  return fetch(loginURL, configObj)
+  return fetch(signinURL, configObj)
     .then(jsonify)
     .then(saveToken)
     .catch(handleServerError);
