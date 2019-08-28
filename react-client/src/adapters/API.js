@@ -1,8 +1,12 @@
 const endpoint = `http://localhost:3000/api/v1`;
+
 const signupURL = `${endpoint}/users`;
 const signinURL = `${endpoint}/signin`;
+
 const validateURL = `${endpoint}/validate`;
 const updateURL = `${endpoint}/users/`;
+
+const papersURL = `${endpoint}/papers`;
 
 const jsonify = resp => {
   if (resp.ok) return resp.json();
@@ -83,10 +87,17 @@ const signInUser = user => {
     .catch(handleServerError);
 };
 
+const fetchAllPapers = () => {
+  return fetch(papersURL)
+    .then(jsonify)
+    .catch(handleServerError);
+};
+
 export default {
   validateUser,
   signUpUser,
   signInUser,
   clearToken,
-  updateUser
+  updateUser,
+  fetchAllPapers
 };

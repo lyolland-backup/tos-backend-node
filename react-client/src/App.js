@@ -27,7 +27,9 @@ class App extends Component {
       usertype: null,
       bio: null
     },
-    loggingUser: false
+    loggingUser: false,
+    userPapers: [],
+    allPapers: []
   };
 
   componentDidMount() {
@@ -43,7 +45,20 @@ class App extends Component {
             bio: user.user.data.attributes.bio
           }
         });
+        user.user.data.attributes.papers.map(paper =>
+          this.setState({
+            userPapers: [...this.state.userPapers, paper]
+          })
+        );
       }
+    });
+    API.fetchAllPapers().then(data => {
+      console.log("fetching papers...🧻");
+      data.data.map(paper => {
+        this.setState({
+          allPapers: [...this.state.allPapers, paper.attributes]
+        });
+      });
     });
   }
 
@@ -146,6 +161,7 @@ class App extends Component {
           loggingUser={this.state.loggingUser}
           submitSignIn={this.submitSignIn}
           updateBio={this.updateBio}
+          userPapers={this.state.userPapers}
         />
       </div>
     );
