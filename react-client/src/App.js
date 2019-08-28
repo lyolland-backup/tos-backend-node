@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-
 import { withRouter } from "react-router-dom";
 import API from "./adapters/API";
+
 import Joi from "joi";
 
 import CreateRoutes from "./components/Routing";
