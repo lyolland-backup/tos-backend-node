@@ -5,7 +5,6 @@ import { Button, Menu } from "semantic-ui-react";
 class MenuBar extends Component {
   render() {
     const { user, signOut } = this.props;
-    console.log(signOut)
     const menu =
       user.username === null ? (
         <Menu.Menu>

@@ -7,14 +7,16 @@ import {
   Message,
   Segment,
   Dimmer,
-  Loader
+  Loader,
+  Checkbox
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class SignUp extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    usertype: false
   };
 
   handleInputchange = e =>
@@ -25,6 +27,10 @@ class SignUp extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.submitSignUp(this.state);
+  };
+
+  handleResearcherToggle = e => {
+    this.setState({ usertype: !this.state.usertype });
   };
 
   render() {
@@ -66,6 +72,13 @@ class SignUp extends Component {
                 name="password"
                 onChange={this.handleInputchange}
               />
+              <Form.Field>
+                <Checkbox
+                  label="Researcher"
+                  checked={this.state.researcherToggle}
+                  onClick={this.handleResearcherToggle}
+                />
+              </Form.Field>
               <Button color="purple" fluid size="large" type="submit">
                 Sign Up
               </Button>

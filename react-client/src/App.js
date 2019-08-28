@@ -22,7 +22,10 @@ const schema = Joi.object().keys({
 class App extends Component {
   state = {
     user: {
-      username: null
+      username: null,
+      user_id: null,
+      usertype: null,
+      bio: null
     },
     loggingUser: false
   };
@@ -30,11 +33,14 @@ class App extends Component {
   componentDidMount() {
     console.log("App has mounted ... 🌈");
     API.validateUser().then(user => {
+      console.log("who dis? 🤷‍", user);
       if (user.user) {
         this.setState({
           user: {
-            username: user.user.data.attributes.username
-            // user_id: user.user.data.attributes.id
+            username: user.user.data.attributes.username,
+            user_id: user.user.data.attributes.id,
+            usertype: user.data.attributes.usertype,
+            bio: user.data.attributes.bio
           }
         });
       }
@@ -51,6 +57,7 @@ class App extends Component {
   };
 
   submitSignUp = user => {
+    console.log("user object => during sign up 🤓");
     if (this.validateForm(user)) {
       console.log("signing up ... 🤓");
       this.setState({
@@ -61,7 +68,12 @@ class App extends Component {
           setTimeout(() => {
             this.setState({
               loggingUser: false,
-              user: { username: user.data.attributes.username }
+              user: {
+                username: user.data.attributes.username,
+                user_id: user.data.attributes.id,
+                usertype: user.data.attributes.usertype,
+                bio: user.data.attributes.bio
+              }
             });
             console.log("here are the props => 🎁", this.props);
             this.props.history.push("/"); // takes user back to the 🏠 page
@@ -86,7 +98,12 @@ class App extends Component {
         setTimeout(() => {
           this.setState({
             loggingUser: false,
-            user: { username: user.data.attributes.username }
+            user: {
+              username: user.data.attributes.username,
+              user_id: user.data.attributes.id,
+              usertype: user.data.attributes.usertype,
+              bio: user.data.attributes.bio
+            }
           });
           console.log("here are the props => 🎁", this.props);
           this.props.history.push("/"); // takes user back to the 🏠 page
@@ -100,7 +117,22 @@ class App extends Component {
     console.log("signing out ... 👋", this.props);
     this.props.history.push("/");
     API.clearToken();
-    this.setState({ user: { username: null } });
+    this.setState({
+      user: {
+        username: null,
+        user_id: null,
+        bio: null,
+        usertype: null
+      }
+    });
+  };
+
+  updateBio = bio => {
+    console.log("new bio 📨", bio.bio);
+    this.setState({
+      user: { ...this.state.user, bio: bio.bio }
+    });
+    API.updateUser(bio, this.state.user.user_id);
   };
 
   render() {
@@ -112,6 +144,7 @@ class App extends Component {
           submitSignUp={this.submitSignUp}
           loggingUser={this.state.loggingUser}
           submitSignIn={this.submitSignIn}
+          updateBio={this.updateBio}
         />
       </div>
     );

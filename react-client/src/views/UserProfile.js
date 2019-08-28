@@ -3,11 +3,21 @@ import UserProfileImage from "../components/UserProfileImage";
 import MenuBar from "../components/MenuBar";
 import UserRating from "../components/UserRating";
 import { Icon } from "semantic-ui-react";
+import UserBioEditForm from "../components/UserBioEditForm";
 
 class UserProfile extends Component {
-  state = {
-    editBioToggle: false
-  };
+  constructor(props) {
+    super(props);
+    const { user } = this.props;
+    this.state = {
+      user: {
+        username: user.username,
+        bio: user.bio,
+        id: user.user_id
+      },
+      editBioToggle: false
+    };
+  }
 
   handleBioChange = () => {
     console.log("edit the bio now ✅🖋");
@@ -17,7 +27,7 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { user, signOut } = this.props;
+    const { user, signOut, updateBio } = this.props;
     return (
       <Fragment>
         <MenuBar user={user} signOut={signOut} />
@@ -28,7 +38,7 @@ class UserProfile extends Component {
         {this.state.editBioToggle ? (
           <Fragment>
             <Icon name="close" onClick={this.handleBioChange} />
-            <p>Edit the bio :) </p>
+            <UserBioEditForm updateBio={updateBio} />
           </Fragment>
         ) : (
           <Fragment>

@@ -2,7 +2,8 @@ class Api::V1::UsersController < ApplicationController
     skip_before_action :set_current_user, only: [:create]
 
     def index 
-        render( { json: Api::V1::UserSerializer.new(User.all) } )
+        @users = User.all
+        render( json: Api::V1::UserSerializer.new(@users))
     end
 
     def create
@@ -16,13 +17,22 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def profile
+        @user = User.find(params[:id])
+        render( { json: Api::V1::UserSerializer.new(@user) } )
+    end
+
+    def update
         user = User.find(params[:id])
-        render( { json: Api::V1::UserSerializer.new(user) } )
+        # binding.pry
+
+        user.update(user_params)
+        # user.save
+        render(  json: { user: Api::V1::UserSerializer.new(user)  })
     end
 
     private    
     def user_params
-        params.require(:user).permit(:username, :password, :id, :user_type)
+        params.require(:user).permit(:username, :password, :id, :usertype, :bio)
     end
 
 end

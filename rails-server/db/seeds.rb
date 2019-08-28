@@ -7,6 +7,24 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.create!([{
-    username: "lawrence", password: "123", user_type: 0
-}])
+User.create!([
+    { username: "456", password: "456", usertype: true },
+    { username: "789", password: "789", usertype: true },
+    { username: "000", password: "000", usertype: true }
+    ])
+
+# Paper.create!([
+#     { title: "a new paper", abstract: "some text about how great this paper is"},
+#     { title: "another new paper", abstract: "cool stuff in here"},
+#     { title: "a paper again", abstract: "this paper is about some things"},
+#     ])
+
+# UserPaper.create!([
+#     {user_id: 1, paper_id: 1},
+#     {user_id: 1, paper_id: 2},
+#     {user_id: 1, paper_id: 3}
+#     ])
+
+# Review.create!([
+#     {content: "this paper is great", user_id: 1, paper_id: 1}
+#     ])

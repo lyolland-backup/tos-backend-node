@@ -2,6 +2,7 @@ const endpoint = `http://localhost:3000/api/v1`;
 const signupURL = `${endpoint}/users`;
 const signinURL = `${endpoint}/signin`;
 const validateURL = `${endpoint}/validate`;
+const updateURL = `${endpoint}/users/`;
 
 const jsonify = resp => {
   if (resp.ok) return resp.json();
@@ -38,6 +39,8 @@ const validateUser = () => {
 };
 
 const signUpUser = user => {
+  if (user.researcherToggle) console.log("researcher sign in ACTIVATE 👩‍🔬🔬");
+
   const configObj = {
     method: "POST",
     headers: {
@@ -46,6 +49,23 @@ const signUpUser = user => {
     body: JSON.stringify({ user })
   };
   return fetch(signupURL, configObj)
+    .then(jsonify)
+    .then(saveToken)
+    .catch(handleServerError);
+};
+
+const updateUser = (data, id) => {
+  // const {bio} = data
+  const configObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ user: data })
+  };
+  console.log("config object => 📨", configObj);
+
+  return fetch(updateURL + id, configObj)
     .then(jsonify)
     .then(saveToken)
     .catch(handleServerError);
@@ -69,5 +89,6 @@ export default {
   validateUser,
   signUpUser,
   signInUser,
-  clearToken
+  clearToken,
+  updateUser
 };

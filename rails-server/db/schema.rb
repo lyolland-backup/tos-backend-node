@@ -10,17 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_27_141353) do
+ActiveRecord::Schema.define(version: 2019_08_28_155622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password_digest"
-    t.integer "user_type"
+  create_table "papers", force: :cascade do |t|
+    t.string "title"
+    t.string "abstract"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id"
+    t.bigint "paper_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paper_id"], name: "index_reviews_on_paper_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "user_papers", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "paper_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paper_id"], name: "index_user_papers_on_paper_id"
+    t.index ["user_id"], name: "index_user_papers_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.boolean "usertype"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "bio"
+  end
+
+  add_foreign_key "reviews", "papers"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "user_papers", "papers"
+  add_foreign_key "user_papers", "users"
 end

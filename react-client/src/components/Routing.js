@@ -6,7 +6,7 @@ import SignIn from "../views/SignIn";
 import UserProfile from "../views/UserProfile";
 import NotFound from "../views/NotFound";
 
-const CreateRoutes = ({ user, signOut, submitSignUp, submitSignIn, loggingUser}) => {
+const CreateRoutes = ({ user, signOut, submitSignUp, submitSignIn, loggingUser, updateBio}) => {
   return <Switch>
     <Route
       exact
@@ -30,7 +30,7 @@ const CreateRoutes = ({ user, signOut, submitSignUp, submitSignIn, loggingUser})
     <Route
       exact
       path="/profile"
-      render={() => <UserProfile user={user} signOut={signOut} />}
+      render={() => <UserProfile user={user} signOut={signOut} updateBio={updateBio} />}
     ></Route>
     <Route render={() => <NotFound user={user} signOut={signOut} />} />
   </Switch>;
