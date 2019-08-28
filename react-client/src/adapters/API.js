@@ -55,7 +55,6 @@ const signUpUser = user => {
 };
 
 const updateUser = (data, id) => {
-  // const {bio} = data
   const configObj = {
     method: "PATCH",
     headers: {
@@ -67,7 +66,6 @@ const updateUser = (data, id) => {
 
   return fetch(updateURL + id, configObj)
     .then(jsonify)
-    .then(saveToken)
     .catch(handleServerError);
 };
 

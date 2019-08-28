@@ -3,16 +3,16 @@ class Api::V1::UsersController < ApplicationController
 
     def index 
         @users = User.all
-        render( json: Api::V1::UserSerializer.new(@users))
+        render( json: Api::V1::UserSerializer.new(@users) )
     end
 
     def create
         @user = User.create(user_params)
         if @user.valid?
             @token = encode_token({ user_id: @user.id })
-            render json: { user: Api::V1::UserSerializer.new(@user), jwt: @token }, status: :created
+            render( json: { user: Api::V1::UserSerializer.new(@user), jwt: @token }, status: :created)
         else
-            render json: { error: 'failed to create user 🤦‍' }, status: :not_acceptable
+            render( json: { error: 'failed to create user 🤦‍' }, status: :not_acceptable)
         end
     end
 
@@ -22,12 +22,10 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def update
-        user = User.find(params[:id])
+        @user = User.find(params[:id])
         # binding.pry
-
-        user.update(user_params)
-        # user.save
-        render(  json: { user: Api::V1::UserSerializer.new(user)  })
+        @user.update(user_params)
+        render(  json: { user: Api::V1::UserSerializer.new(@user)  })
     end
 
     private    

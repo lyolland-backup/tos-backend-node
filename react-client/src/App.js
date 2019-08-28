@@ -39,8 +39,8 @@ class App extends Component {
           user: {
             username: user.user.data.attributes.username,
             user_id: user.user.data.attributes.id,
-            usertype: user.data.attributes.usertype,
-            bio: user.data.attributes.bio
+            usertype: user.user.data.attributes.usertype,
+            bio: user.user.data.attributes.bio
           }
         });
       }
@@ -128,11 +128,12 @@ class App extends Component {
   };
 
   updateBio = bio => {
-    console.log("new bio 📨", bio.bio);
-    this.setState({
-      user: { ...this.state.user, bio: bio.bio }
+    console.log("new bio 📨", bio);
+    API.updateUser(bio, this.state.user.user_id).then(user => {
+      this.setState({
+        user: { ...this.state.user, bio: user.user.data.attributes.bio }
+      });
     });
-    API.updateUser(bio, this.state.user.user_id);
   };
 
   render() {

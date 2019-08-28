@@ -46,3 +46,13 @@
   color: whitesmoke;
   margin: 0 5px 0 5px;
 }
+
+/* .bio-edit {
+  display: flex;
+  flex-direction: column;
+} */
+
+.bio-input {
+  border-radius: 5px;
+  border: 1px solid grey;
+}
