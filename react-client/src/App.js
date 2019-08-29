@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 import { withRouter } from "react-router-dom";
 import API from "./adapters/API";
+import MenuBar from "./components/MenuBar";
 
 import Joi from "joi";
 
-import CreateRoutes from "./components/Routing";
+import CreateRoutes from "./containers/Routing";
 
 // this should map to user model validation in rails
 // validates :username, uniqueness: { case_sensitive: false }
@@ -154,6 +155,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+         <MenuBar user={this.state.user} signOut={this.signOut}/>
         <CreateRoutes
           user={this.state.user}
           signOut={this.signOut}
@@ -162,6 +164,7 @@ class App extends Component {
           submitSignIn={this.submitSignIn}
           updateBio={this.updateBio}
           userPapers={this.state.userPapers}
+          allPapers={this.state.allPapers}
         />
       </div>
     );

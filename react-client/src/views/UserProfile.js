@@ -1,14 +1,53 @@
 import React, { Component, Fragment } from "react";
+
 import UserProfileImage from "../components/UserProfileImage";
-import MenuBar from "../components/MenuBar";
 import UserRating from "../components/UserRating";
 import { Icon } from "semantic-ui-react";
-import UserPapersContainer from "../components/UserPapersContainer";
+import UserPapersContainer from "../containers/UserPapersContainer";
+import API from "../adapters/API";
 
 class UserProfile extends Component {
   state = {
-    bio: "",
-    editBioToggle: false
+    editBioToggle: null,
+    user: {
+      username: "",
+      usertype: "",
+      bio: "",
+      id: ""
+    },
+    userPapers: []
+  };
+
+  componentDidMount() {
+    this.setUserData();
+  }
+
+  componentDidUpdate() {
+    return parseInt(this.props.match.params.access_token) !== this.state.user.id
+      ? this.setUserData()
+      : false;
+  }
+
+  setUserData = () => {
+    const { access_token } = this.props.match.params;
+    console.log("access => 🎁", access_token);
+    API.fetchUser(access_token).then(user => {
+      console.log("attributes from user => 🎁", user.data.attributes);
+      this.setState({
+        user: {
+          username: user.data.attributes.username,
+          usertype: user.data.attributes.usertype,
+          bio: user.data.attributes.bio,
+          id: user.data.attributes.id
+        },
+        userPapers: user.data.attributes.papers.map(paper => paper),
+        editBioToggle:
+          parseInt(this.props.match.params.access_token) ===
+          this.props.user.user_id
+            ? false
+            : null
+      });
+    });
   };
 
   handleBioChange = () => {
@@ -20,52 +59,58 @@ class UserProfile extends Component {
 
   editBio = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      user: { ...this.state.user, [e.target.name]: e.target.value }
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.updateBio(this.state);
+    this.props.updateBio(this.state.user);
     this.setState({
       editBioToggle: !this.state.editBioToggle
     });
   };
 
   render() {
-    const { user, signOut } = this.props;
+    const { user } = this.state;
     return (
       <Fragment>
-        <MenuBar user={user} signOut={signOut} />
         <h1>{user.username}</h1>
         <UserProfileImage username={user.username} />
         <UserRating />
         <h4>Bio:</h4>
         {this.state.editBioToggle ? (
           <Fragment>
-            <Icon name="close" onClick={this.handleBioChange} />
-            {/* <UserBioEditForm updateBio={updateBio} /> */}
             <form onSubmit={this.handleSubmit} className="bio-edit">
+              <Icon name="close" onClick={this.handleBioChange} />
               <textarea
                 name="bio"
                 onChange={this.editBio}
-                value={this.state.bio}
+                value={user.bio}
                 className="bio-input"
               />
-              <button className="button" type="submit" value="save">
+              <button className="button" value="save">
                 save
               </button>
             </form>
           </Fragment>
         ) : (
           <Fragment>
-            <Icon name="edit outline" onClick={this.handleBioChange} />
-            <p>{user.bio}</p>
+            {parseInt(this.props.match.params.access_token) ===
+            this.props.user.user_id ? (
+              <Fragment>
+              
+                <Icon name="edit outline" onClick={this.handleBioChange} />
+                <p>{this.props.user.bio}</p>
+              </Fragment>
+            ) : null}
           </Fragment>
         )}
-        <h5>Paper Reviews</h5>
-        <UserPapersContainer userPapers={this.props.userPapers} />
-        <h5>Journal Clubs</h5>
+        <h5>Your Papers</h5>{" "}
+        {/* make sure when viewing other users that this is just !papers!*/}
+        <UserPapersContainer userPapers={this.state.userPapers} />
+        <h5>Your Reviews</h5>
+        {/* <h5>Journal Clubs</h5> */}
       </Fragment>
     );
   }

@@ -1,6 +1,6 @@
 const endpoint = `http://localhost:3000/api/v1`;
 
-const signupURL = `${endpoint}/users`;
+const usersURL = `${endpoint}/users`;
 const signinURL = `${endpoint}/signin`;
 
 const validateURL = `${endpoint}/validate`;
@@ -52,7 +52,7 @@ const signUpUser = user => {
     },
     body: JSON.stringify({ user })
   };
-  return fetch(signupURL, configObj)
+  return fetch(usersURL, configObj)
     .then(jsonify)
     .then(saveToken)
     .catch(handleServerError);
@@ -87,8 +87,20 @@ const signInUser = user => {
     .catch(handleServerError);
 };
 
+const fetchUser = id => {
+  return fetch(usersURL + "/" + id)
+    .then(jsonify)
+    .catch(handleServerError);
+};
+
 const fetchAllPapers = () => {
   return fetch(papersURL)
+    .then(jsonify)
+    .catch(handleServerError);
+};
+
+const fetchPaper = id => {
+  return fetch(papersURL + "/" + id)
     .then(jsonify)
     .catch(handleServerError);
 };
@@ -99,5 +111,7 @@ export default {
   signInUser,
   clearToken,
   updateUser,
-  fetchAllPapers
+  fetchUser,
+  fetchAllPapers,
+  fetchPaper
 };

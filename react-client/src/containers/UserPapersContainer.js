@@ -1,9 +1,9 @@
 import React from "react";
-import UserPaper from "./UserPaper";
+import Paper from "../components/Paper";
 
 const UserPapersContainer = ({ userPapers }) => {
   const papers = userPapers.map(paper => (
-    <UserPaper key={paper.id} {...paper} />
+    <Paper key={paper.id} id={paper.id} title={paper.title} />
   ));
   return <div>{papers}</div>;
 };

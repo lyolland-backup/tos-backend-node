@@ -5,6 +5,8 @@ import SignUp from "../views/SignUp";
 import SignIn from "../views/SignIn";
 import UserProfile from "../views/UserProfile";
 import NotFound from "../views/NotFound";
+import PaperShow from "../views/PaperShow";
+import PaperIndex from "../views/PaperIndex";
 
 const CreateRoutes = ({
   user,
@@ -13,7 +15,8 @@ const CreateRoutes = ({
   submitSignIn,
   loggingUser,
   updateBio,
-  userPapers
+  userPapers,
+  allPapers
 }) => {
   return (
     <Switch>
@@ -36,7 +39,7 @@ const CreateRoutes = ({
           <SignIn submitSignIn={submitSignIn} loggingUser={loggingUser} />
         )}
       />
-      <Route
+      {/* <Route
         exact
         path="/profile"
         render={() => (
@@ -47,7 +50,31 @@ const CreateRoutes = ({
             userPapers={userPapers}
           />
         )}
-      ></Route>
+      /> */}
+      <Route
+        exact
+        path="/users/:access_token"
+        render={({ match }) => (
+          <UserProfile
+            user={user}
+            match={match}
+            updateBio={updateBio}
+            userPapers={userPapers}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/papers/:access_token"
+        render={({ match }) => (
+          <PaperShow match={match} user={user} signOut={signOut} />
+        )}
+      />
+      <Route
+        exact
+        path="/papers"
+        render={() => <PaperIndex allPapers={allPapers} />}
+      />
       <Route render={() => <NotFound user={user} signOut={signOut} />} />
     </Switch>
   );

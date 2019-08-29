@@ -1,6 +1,6 @@
 class Api::V1::UserSerializer
     include FastJsonapi::ObjectSerializer
-    attributes :username, :usertype, :id, :bio
+    attributes :id, :username, :usertype, :bio
 
     # has_many :papers
     attributes :papers do |object|

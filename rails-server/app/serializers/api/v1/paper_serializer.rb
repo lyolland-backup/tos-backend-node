@@ -1,8 +1,6 @@
 class Api::V1::PaperSerializer
     include FastJsonapi::ObjectSerializer
-    attributes :id, :title, :abstract, :users
-
-    # has_many :user, serializer: Api::V1::UserSerializer // check why has many isnt require!!
+    attributes :id, :title, :abstract, :category, :users
 end
   
 

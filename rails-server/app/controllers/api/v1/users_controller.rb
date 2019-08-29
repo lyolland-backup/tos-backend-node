@@ -16,14 +16,18 @@ class Api::V1::UsersController < ApplicationController
         end
     end
 
+    def show
+        @user = User.find(params[:id])
+        render( json: Api::V1::UserSerializer.new(@user)  )
+    end
+
     def profile
         @user = User.find(params[:id])
-        render( { json: Api::V1::UserSerializer.new(@user) } )
+        render( json: Api::V1::UserSerializer.new(@user)  )
     end
 
     def update
         @user = User.find(params[:id])
-        # binding.pry
         @user.update(user_params)
         render(  json: { user: Api::V1::UserSerializer.new(@user)  })
     end

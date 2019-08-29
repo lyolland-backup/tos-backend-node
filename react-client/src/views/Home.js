@@ -7,7 +7,7 @@ class Home extends Component {
     console.log(this.props);
     return (
       <Fragment>
-        <MenuBar user={user} signOut={signOut} />
+        {/* <MenuBar user={user} signOut={signOut} /> */}
         <div className="hero-home"></div>
       </Fragment>
     );
