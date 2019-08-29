@@ -1,42 +1,68 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component, Fragment } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { Button, Menu } from "semantic-ui-react";
 
 class MenuBar extends Component {
-
   render() {
-    const { user, signOut } = this.props;
-    console.log("this is the current user => 👋", user.user_id)
-    const path = `/users/${user.user_id}`;
+    const { user, signOut, showMenu } = this.props;
+    console.log("this is the current user => 👋", user.user_id);
+    const homePath = `/users/${user.user_id}`;
     const menu =
       user.username === null ? (
-        <Menu.Menu>
-          <Menu.Item>
-            <Button basic>
-              <Link to="/signup">Sign Up</Link>
-            </Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button basic>
-              <Link to="/signin">Sign in</Link>
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
+        <Fragment>
+          <NavLink
+            to="/signin"
+            activeStyle={{
+              fontWeight: "bold",
+              color: "#f9009a"
+            }}
+          >
+            Sign In<span>👋</span>
+          </NavLink>
+
+          <NavLink
+            to="/signup"
+            activeStyle={{
+              fontWeight: "bold",
+              color: "#f9009a"
+            }}
+          >
+            Sign Up<span>👋</span>
+          </NavLink>
+        </Fragment>
       ) : (
-        <Menu.Menu>
-          <Menu.Item>
-            <Button basic onClick={signOut}>
-                Sign Out
-            </Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button basic>
-              <Link to={path}>Profile</Link>
-            </Button>
-          </Menu.Item>
-        </Menu.Menu>
+        <Fragment>
+          <NavLink
+            onClick={signOut}
+            activeStyle={{
+              fontWeight: "bold",
+              color: "#f9009a"
+            }}
+          >
+            Sign Out<span>👋</span>
+          </NavLink>
+
+          <NavLink
+            to={homePath}
+            activeStyle={{
+              fontWeight: "bold",
+              color: "#f9009a"
+            }}
+          >
+            Home<span>🏠</span>
+          </NavLink>
+          <NavLink
+            onClick={showMenu}
+            activeStyle={{
+              fontWeight: "bold",
+              color: "#f9009a"
+            }}
+          >
+            Menu<span>🍔</span>
+          </NavLink>
+        </Fragment>
       );
-    return <Menu>{menu}</Menu>;
+    return <header>{menu}</header>;
   }
 }
 

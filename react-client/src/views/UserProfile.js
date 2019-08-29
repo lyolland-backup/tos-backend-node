@@ -82,16 +82,20 @@ class UserProfile extends Component {
         {this.state.editBioToggle ? (
           <Fragment>
             <form onSubmit={this.handleSubmit} className="bio-edit">
-              <Icon name="close" onClick={this.handleBioChange} />
+              <div className="form-buttons">
+                <button onClick={this.handleBioChange}>
+                  <span>🚮</span>
+                </button>
+                <button type="submit">
+                  <span>💾</span>
+                </button>
+              </div>
               <textarea
                 name="bio"
                 onChange={this.editBio}
                 value={user.bio}
                 className="bio-input"
               />
-              <button className="button" value="save">
-                save
-              </button>
             </form>
           </Fragment>
         ) : (
@@ -99,18 +103,18 @@ class UserProfile extends Component {
             {parseInt(this.props.match.params.access_token) ===
             this.props.user.user_id ? (
               <Fragment>
-              
-                <Icon name="edit outline" onClick={this.handleBioChange} />
+                <button onClick={this.handleBioChange}>
+                  <span>✏️</span>
+                </button>
                 <p>{this.props.user.bio}</p>
               </Fragment>
             ) : null}
           </Fragment>
         )}
         <h5>Your Papers</h5>{" "}
-        {/* make sure when viewing other users that this is just !papers!*/}
         <UserPapersContainer userPapers={this.state.userPapers} />
         <h5>Your Reviews</h5>
-        {/* <h5>Journal Clubs</h5> */}
+        <h5>Journal Clubs</h5>
       </Fragment>
     );
   }

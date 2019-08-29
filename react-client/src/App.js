@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import { withRouter } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import API from "./adapters/API";
 import MenuBar from "./components/MenuBar";
-
+import Menu from "./views/Menu";
 import Joi from "joi";
 
 import CreateRoutes from "./containers/Routing";
@@ -30,7 +30,8 @@ class App extends Component {
     },
     loggingUser: false,
     userPapers: [],
-    allPapers: []
+    allPapers: [],
+    menu: false
   };
 
   componentDidMount() {
@@ -152,10 +153,21 @@ class App extends Component {
     });
   };
 
+  showMenu = () =>
+    this.setState({
+      menu: !this.state.menu
+    });
+
   render() {
     return (
       <div className="App">
-         <MenuBar user={this.state.user} signOut={this.signOut}/>
+        <MenuBar
+          user={this.state.user}
+          signOut={this.signOut}
+          showMenu={this.showMenu}
+        />
+   
+        {!this.state.menu ? null : <Menu menu={this.state.menu} user={this.state.user} />}
         <CreateRoutes
           user={this.state.user}
           signOut={this.signOut}
