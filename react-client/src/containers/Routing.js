@@ -75,6 +75,7 @@ const CreateRoutes = ({
         path="/papers"
         render={() => <PaperIndex allPapers={allPapers} />}
       />
+
       <Route render={() => <NotFound user={user} signOut={signOut} />} />
     </Switch>
   );

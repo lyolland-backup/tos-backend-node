@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from "react";
-import MenuBar from "../components/MenuBar";
+import HomeContentContainer from "../containers/HomeContentContainer";
 
 class Home extends Component {
   render() {
-    const { user, signOut } = this.props;
     console.log(this.props);
     return (
-      <Fragment>
-        {/* <MenuBar user={user} signOut={signOut} /> */}
-        <div className="hero-home"></div>
-      </Fragment>
+      <div>
+        <div className="home-body">
+          <h1>Welcome to T.O.S</h1>
+        </div>
+        <HomeContentContainer />
+      </div>
     );
   }
 }

@@ -157,7 +157,8 @@ class App extends Component {
     this.setState({
       menu: !this.state.menu
     });
-
+  
+  
   render() {
     return (
       <div className="App">
@@ -167,7 +168,7 @@ class App extends Component {
           showMenu={this.showMenu}
         />
    
-        {!this.state.menu ? null : <Menu menu={this.state.menu} user={this.state.user} />}
+        {!this.state.menu ? null : <Menu menu={this.state.menu} user={this.state.user} signOut={this.signOut} />}
         <CreateRoutes
           user={this.state.user}
           signOut={this.signOut}
