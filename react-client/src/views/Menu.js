@@ -18,9 +18,13 @@ class Menu extends Component {
                 fontWeight: "bold",
                 color: "#f9009a"
               }}
+              onClick={this.props.showMenu}
             >
               <li>
-                Home<span role="img" aria-label="Home">🏠</span>
+                Home
+                <span role="img" aria-label="Home">
+                  🏠
+                </span>
               </li>
             </NavLink>
             <NavLink
@@ -29,9 +33,13 @@ class Menu extends Component {
                 fontWeight: "bold",
                 color: "#f9009a"
               }}
+              onClick={this.props.showMenu}
             >
               <li>
-                Profile<span role="img"  aria-label="Profile">👩‍🔬</span>
+                Profile
+                <span role="img" aria-label="Profile">
+                  👩‍🔬
+                </span>
               </li>
             </NavLink>
 
@@ -41,9 +49,13 @@ class Menu extends Component {
                 fontWeight: "bold",
                 color: "#f9009a"
               }}
+              onClick={this.props.showMenu}
             >
               <li>
-                Papers<span role="img" aria-label="Papers">📖</span>
+                Papers
+                <span role="img" aria-label="Papers">
+                  📖
+                </span>
               </li>
             </NavLink>
 
@@ -52,15 +64,22 @@ class Menu extends Component {
                 fontWeight: "bold",
                 color: "#f9009a"
               }}
-              onClick={this.props.signOut}
+              onClick={ () => {
+                this.props.showMenu()
+                this.props.signOut()
+              }}
             >
               <li>
-                Sign Out<span role="img" aria-label="Sign Out">👋</span>
+                Sign Out
+                <span role="img" aria-label="Sign Out">
+                  👋
+                </span>
               </li>
             </NavLink>
           </ul>
         </div>
-      ) : ( // the menu to be rendered when not signed in
+      ) : (
+        // the menu to be rendered when not signed in
         <div className="drop-menu">
           <ul id="menu">
             <input type="text" placeholder="search papers ..."></input>
@@ -71,9 +90,13 @@ class Menu extends Component {
                 fontWeight: "bold",
                 color: "#f9009a"
               }}
+              onClick={this.props.showMenu}
             >
               <li>
-                Home<span role="img" aria-label="Home">🏠</span>
+                Home
+                <span role="img" aria-label="Home">
+                  🏠
+                </span>
               </li>
             </NavLink>
 
@@ -83,9 +106,13 @@ class Menu extends Component {
                 fontWeight: "bold",
                 color: "#f9009a"
               }}
+              onClick={this.props.showMenu}
             >
               <li>
-                Papers<span role="img" aria-label="Papers">📖</span>
+                Papers
+                <span role="img" aria-label="Papers">
+                  📖
+                </span>
               </li>
             </NavLink>
           </ul>

@@ -73,7 +73,7 @@ class UserProfile extends Component {
     });
   };
 
-  showPostPaper = () => {
+  addPaperToggle = () => {
     this.setState({
       postPaperToggle: !this.state.postPaperToggle
     });
@@ -128,8 +128,8 @@ class UserProfile extends Component {
         )}
         <h5>Your Papers</h5>
         {postPaperToggle ? (
-          <PostPaper showPostPaper={this.showPostPaper} user_id={user.id} userPostsPaper={this.props.userPostsPaper} />
-        ) :  <Button onClick={this.showPostPaper}>add a paper</Button>}
+          <PostPaper addPaperToggle={this.addPaperToggle} user_id={user.id} userPostsPaper={this.props.userPostsPaper}/>
+        ) :  <Button onClick={this.addPaperToggle}>add a paper</Button>}
         <UserPapersContainer userPapers={userPapers} />
         <h5>Your Reviews</h5>
         <h5>Journal Clubs</h5>

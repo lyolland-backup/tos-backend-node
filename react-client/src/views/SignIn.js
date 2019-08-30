@@ -30,7 +30,7 @@ class SignIn extends Component {
 
   render() {
     const view = this.props.loggingUser ? (
-      <Segment textAlign="center" style={{ height: "100vh", "z-index": "-1 "}}>
+      <Segment textAlign="center" style={{ height: "100vh", "zIndex": "-1 "}}>
         <Dimmer active inverted>
           <Loader size="large">Loading</Loader>
         </Dimmer>

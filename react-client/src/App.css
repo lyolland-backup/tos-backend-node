@@ -101,12 +101,12 @@ header a {
 }
 
 .drop-menu {
-  position: absolute;
+  position: fixed;
   z-index: 100;
   top: 10vh;
   /* left: 0px; */
   min-width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #282c34;
   align-content: center;
 }
@@ -153,9 +153,17 @@ header a {
   margin-top: 10vh;
 }
 
+
+
+.user-papers-container {
+  height: 200px;
+  overflow: scroll;
+}
+
 .post-input-container {
   /* position: fixed; */
   z-index: 999;
   width: 80%;
   margin:auto;
+  /* height: 400px; */
 }

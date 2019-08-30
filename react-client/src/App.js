@@ -11,13 +11,23 @@ import CreateRoutes from "./containers/Routing";
 // this should map to user model validation in rails
 // validates :username, uniqueness: { case_sensitive: false }
 // validates :password, length: { minimum: 3 }
-const schema = Joi.object().keys({
+const userSchema = Joi.object().keys({
   username: Joi.string()
     .min(1)
     .required(),
   password: Joi.string()
     .min(3)
     .required()
+});
+
+const paperSchema = Joi.object().keys({
+  title: Joi.string()
+    .min(1)
+    .required(),
+  abstract: Joi.string()
+    .min(10)
+    .required(),
+  category: Joi.string().required()
 });
 
 class App extends Component {
@@ -31,7 +41,8 @@ class App extends Component {
     loggingUser: false,
     userPapers: [],
     allPapers: [],
-    menu: false
+    menu: false,
+    formError: false
   };
 
   componentDidMount() {
@@ -66,18 +77,30 @@ class App extends Component {
     });
   }
 
-  validateForm = user => {
+  validateUserForm = user => {
     const userData = {
       username: user.username,
       password: user.password
     };
-    const result = Joi.validate(userData, schema);
+    const result = Joi.validate(userData, userSchema);
+    return !result.error ? true : false;
+  };
+
+  validatePaperForm = paper => {
+    console.log("posting this paper ... 🤓", paper);
+
+    const paperData = {
+      title: paper.title,
+      abstract: paper.abstract,
+      category: paper.category
+    };
+    const result = Joi.validate(paperData, paperSchema);
     return !result.error ? true : false;
   };
 
   submitSignUp = user => {
     console.log("user object => during sign up 🤓");
-    if (this.validateForm(user)) {
+    if (this.validateUserForm(user)) {
       console.log("signing up ... 🤓");
       this.setState({
         loggingUser: true
@@ -108,7 +131,7 @@ class App extends Component {
   };
 
   submitSignIn = user => {
-    if (this.validateForm(user)) {
+    if (this.validateUserForm(user)) {
       console.log("signing in ... 🤓");
       this.setState({
         loggingUser: true
@@ -128,11 +151,13 @@ class App extends Component {
           this.props.history.push("/"); // takes user back to the 🏠 page
         }, 1000);
       });
-    } // return an alert when sign in fails validation step - use the error handler on back end
+    } else {
+      // return an alert when sign in fails validation step - use the error handler on back end
+
+    }
   };
 
-  signOut = e => {
-    e.preventDefault();
+  signOut = () => {
     console.log("signing out ... 👋", this.props);
     this.props.history.push("/");
     API.clearToken();
@@ -157,11 +182,24 @@ class App extends Component {
 
   userPostsPaper = paper => {
     console.log("posting paper ... 🧻", paper);
-    API.postPaper(paper).then(paper => {
+
+    if (this.validatePaperForm(paper)) {
+      console.log("posting paper ... 🤓");
       this.setState({
-        userPapers: [...this.state.userPapers, paper.data.attributes]
-      })
-    })
+        loggingUser: true
+      });
+      API.postPaper(paper).then(paper => {
+        setTimeout(() => {
+          this.setState({
+            loggingUser: false,
+            userPapers: [...this.state.userPapers, paper.data.attributes],
+            allPaper: [...this.state.allPapers, paper.data.attributes]
+          });
+        }, 1000);
+      });
+    } else {
+      console.log(" paper not posted ☹️");
+    }
   };
 
   showMenu = () => {
@@ -176,6 +214,7 @@ class App extends Component {
           user={this.state.user}
           signOut={this.signOut}
           showMenu={this.showMenu}
+          menuState={this.state.menu}
         />
 
         {!this.state.menu ? null : (
@@ -183,6 +222,7 @@ class App extends Component {
             menu={this.state.menu}
             user={this.state.user}
             signOut={this.signOut}
+            showMenu={this.showMenu}
           />
         )}
         <CreateRoutes

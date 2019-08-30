@@ -62,6 +62,7 @@ const CreateRoutes = ({
             updateBio={updateBio}
             userPapers={userPapers}
             userPostsPaper={userPostsPaper}
+            loggingUser={loggingUser}
           />
         )}
       />

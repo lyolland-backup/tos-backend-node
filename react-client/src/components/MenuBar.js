@@ -3,10 +3,15 @@ import { Link, NavLink } from "react-router-dom";
 import { Button, Menu, Icon } from "semantic-ui-react";
 
 class MenuBar extends Component {
+  handleShowMenu = () => {
+    if (!this.props.menuState) return;
+    this.props.showMenu();
+  };
   render() {
-    const { user, signOut, showMenu } = this.props;
+    const { user, showMenu } = this.props;
     console.log("this is the current user => 👋", user.user_id);
     const profilePath = `/users/${user.user_id}`;
+
     const menu =
       user.username === null ? (
         <Fragment>
@@ -17,8 +22,12 @@ class MenuBar extends Component {
               fontWeight: "bold",
               color: "#f9009a"
             }}
+            onClick={this.handleShowMenu}
           >
-            Sign In<span role="img" aria-label="Sign In">👋</span>
+            Sign In
+            <span role="img" aria-label="Sign In">
+              👋
+            </span>
           </NavLink>
           <NavLink
             exact
@@ -27,8 +36,12 @@ class MenuBar extends Component {
               fontWeight: "bold",
               color: "#f9009a"
             }}
+            onClick={this.handleShowMenu}
           >
-            Home<span role="img" aria-label="Home">🏠</span>
+            Home
+            <span role="img" aria-label="Home">
+              🏠
+            </span>
           </NavLink>
 
           <NavLink
@@ -38,8 +51,12 @@ class MenuBar extends Component {
               fontWeight: "bold",
               color: "#f9009a"
             }}
+            onClick={this.handleShowMenu}
           >
-            Sign Up<span role="img" aria-label="Sign Up">👋</span>
+            Sign Up
+            <span role="img" aria-label="Sign Up">
+              👋
+            </span>
           </NavLink>
           <NavLink
             onClick={showMenu}
@@ -48,19 +65,28 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Menu<span role="img" aria-label="Menu">🍔</span>
+            Menu
+            <span role="img" aria-label="Menu">
+              🍔
+            </span>
           </NavLink>
         </Fragment>
       ) : (
         <Fragment>
           <NavLink
-            onClick={signOut}
+            onClick={() => {
+              this.handleShowMenu();
+              this.props.signOut();
+            }}
             activeStyle={{
               fontWeight: "bold",
               color: "#f9009a"
             }}
           >
-            Sign Out<span role="img" aria-label="Sign Out">👋</span>
+            Sign Out
+            <span role="img" aria-label="Sign Out">
+              👋
+            </span>
           </NavLink>
           <NavLink
             exact
@@ -69,19 +95,27 @@ class MenuBar extends Component {
               fontWeight: "bold",
               color: "#f9009a"
             }}
+            onClick={this.handleShowMenu}
           >
-            Home<span role="img" aria-label="Home">🏠</span>
+            Home
+            <span role="img" aria-label="Home">
+              🏠
+            </span>
           </NavLink>
 
           <NavLink
             exact
-            to={profilePath}
+            to={!!profilePath ? profilePath : "#"}
             activeStyle={{
               fontWeight: "bold",
               color: "#f9009a"
             }}
+            onClick={this.handleShowMenu}
           >
-            Profile<span role="img" aria-label="user profile">👩‍🔬</span>
+            Profile
+            <span role="img" aria-label="user profile">
+              👩‍🔬
+            </span>
           </NavLink>
           <NavLink
             onClick={showMenu}
@@ -90,7 +124,10 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Menu<span role="img" aria-label="menu">🍔</span>
+            Menu
+            <span role="img" aria-label="menu">
+              🍔
+            </span>
           </NavLink>
         </Fragment>
       );
