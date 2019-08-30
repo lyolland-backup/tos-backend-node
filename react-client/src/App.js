@@ -8,9 +8,6 @@ import Joi from "joi";
 
 import CreateRoutes from "./containers/Routing";
 
-// this should map to user model validation in rails
-// validates :username, uniqueness: { case_sensitive: false }
-// validates :password, length: { minimum: 3 }
 const userSchema = Joi.object().keys({
   username: Joi.string()
     .min(1)
@@ -78,24 +75,28 @@ class App extends Component {
   }
 
   validateUserForm = user => {
-    const userData = {
-      username: user.username,
-      password: user.password
-    };
-    const result = Joi.validate(userData, userSchema);
-    return !result.error ? true : false;
+    // const userData = {
+    //   username: user.username,
+    //   password: user.password
+    // };
+
+    return user.username.trim().length >= 1 && user.password.trim().length >= 3 ? true : false
+    // const result = Joi.validate(userData, userSchema);
+    // return !result.error ? true : result.error;
   };
 
   validatePaperForm = paper => {
     console.log("posting this paper ... 🤓", paper);
+    // const paperData = {
+    //   title: paper.title,
+    //   abstract: paper.abstract,
+    //   category: paper.category
+    // };
+    // const result = Joi.validate(paperData, paperSchema);
+    return paper.title.trim().length > 1 && paper.abstract.trim().length >= 10 && paper.category.trim().length >= 0
+    ? true : false
 
-    const paperData = {
-      title: paper.title,
-      abstract: paper.abstract,
-      category: paper.category
-    };
-    const result = Joi.validate(paperData, paperSchema);
-    return !result.error ? true : false;
+    // return !result.error ? true : false;
   };
 
   submitSignUp = user => {
@@ -216,7 +217,6 @@ class App extends Component {
           showMenu={this.showMenu}
           menuState={this.state.menu}
         />
-
         {!this.state.menu ? null : (
           <Menu
             menu={this.state.menu}
