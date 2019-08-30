@@ -5,7 +5,7 @@ class NotFound extends Component {
     console.log("the page is not found 🕵️‍ ")
     return (
       <Fragment>
-        <h1> NOT FOUND 🕵️‍</h1>
+        <h1 > NOT FOUND <span role="img" aria-label="page not found">🕵️‍</span></h1>
       </Fragment>
     );
   }

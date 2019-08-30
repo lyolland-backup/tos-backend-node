@@ -5,13 +5,12 @@ class Menu extends Component {
 
   render() {
     const { user } = this.props;
-    console.log("in the nav link bit", user);
     const profilePath = `/users/${user.user_id}`;
     const view =
-      user.user_id !== null ? (
+      user.user_id !== null ? ( // the menu to be rendered when signed in
         <div className="drop-menu">
           <ul id="menu">
-            <input type="text" placeholder="search ..."></input>
+            <input type="text" placeholder="search papers ..."></input>
             <NavLink
               exact
               to="/"
@@ -21,7 +20,7 @@ class Menu extends Component {
               }}
             >
               <li>
-                Home<span>🏠</span>
+                Home<span role="img" aria-label="Home">🏠</span>
               </li>
             </NavLink>
             <NavLink
@@ -32,7 +31,7 @@ class Menu extends Component {
               }}
             >
               <li>
-                Profile<span>👩‍🔬</span>
+                Profile<span role="img"  aria-label="Profile">👩‍🔬</span>
               </li>
             </NavLink>
 
@@ -44,7 +43,7 @@ class Menu extends Component {
               }}
             >
               <li>
-                Papers<span>📖</span>
+                Papers<span role="img" aria-label="Papers">📖</span>
               </li>
             </NavLink>
 
@@ -56,15 +55,15 @@ class Menu extends Component {
               onClick={this.props.signOut}
             >
               <li>
-                Sign Out<span>👋</span>
+                Sign Out<span role="img" aria-label="Sign Out">👋</span>
               </li>
             </NavLink>
           </ul>
         </div>
-      ) : (
+      ) : ( // the menu to be rendered when not signed in
         <div className="drop-menu">
           <ul id="menu">
-            <input type="text" placeholder="search ..."></input>
+            <input type="text" placeholder="search papers ..."></input>
             <NavLink
               exact
               to="/"
@@ -74,7 +73,7 @@ class Menu extends Component {
               }}
             >
               <li>
-                Home<span>🏠</span>
+                Home<span role="img" aria-label="Home">🏠</span>
               </li>
             </NavLink>
 
@@ -86,7 +85,7 @@ class Menu extends Component {
               }}
             >
               <li>
-                Papers<span>📖</span>
+                Papers<span role="img" aria-label="Papers">📖</span>
               </li>
             </NavLink>
           </ul>

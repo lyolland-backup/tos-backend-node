@@ -12,4 +12,4 @@ const Paper = ({ title, id, category }) => {
   );
 };
 
-export default Paper;
+export default Paper

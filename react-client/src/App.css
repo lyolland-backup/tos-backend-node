@@ -147,3 +147,15 @@ header a {
 #menu input:focus {
   outline: none;
 }
+
+.user-profile-container, .all-papers, .paper-show-container {
+  /* position: absolute; */
+  margin-top: 10vh;
+}
+
+.post-input-container {
+  /* position: fixed; */
+  z-index: 999;
+  width: 80%;
+  margin:auto;
+}

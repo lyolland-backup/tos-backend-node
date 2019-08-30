@@ -16,7 +16,8 @@ const CreateRoutes = ({
   loggingUser,
   updateBio,
   userPapers,
-  allPapers
+  allPapers,
+  userPostsPaper
 }) => {
   return (
     <Switch>
@@ -60,6 +61,7 @@ const CreateRoutes = ({
             match={match}
             updateBio={updateBio}
             userPapers={userPapers}
+            userPostsPaper={userPostsPaper}
           />
         )}
       />

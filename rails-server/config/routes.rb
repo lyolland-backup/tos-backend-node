@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
         resources :users, only: [:index, :create, :update, :show]
-        resources :papers, only:  [:index, :show]
+        resources :papers, only:  [:index, :show, :create]
         resources :reviews
         get '/validate', to: 'auth#validate_token'
         post "/signin", to: "auth#create"

@@ -21,24 +21,24 @@ class PaperShow extends Component {
           title: paper.data.attributes.title,
           abstract: paper.data.attributes.abstract,
           category: paper.data.attributes.category,
-          author: paper.data.attributes.users.map(user => user.username)
+          author: paper.data.attributes.user.username
         }
       });
     });
   }
   render() {
     const { title, abstract, category, author } = this.state.paper;
-    const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
+    // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
     return (
-      <Fragment>
+      <div className="paper-show-container">
         {/* <MenuBar user={this.props.user} signOut={this.props.signOut} /> */}
         <div>
           <h1>{title}</h1>
-          <h2>{authors}</h2>
+          <h2>{author}</h2>
           <h5>{category}</h5>
           <p>{abstract}</p>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

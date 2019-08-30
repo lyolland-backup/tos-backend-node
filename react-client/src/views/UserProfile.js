@@ -2,9 +2,10 @@ import React, { Component, Fragment } from "react";
 
 import UserProfileImage from "../components/UserProfileImage";
 import UserRating from "../components/UserRating";
-import { Icon } from "semantic-ui-react";
 import UserPapersContainer from "../containers/UserPapersContainer";
 import API from "../adapters/API";
+import { Button } from "semantic-ui-react";
+import PostPaper from "./PostPaper";
 
 class UserProfile extends Component {
   state = {
@@ -15,7 +16,8 @@ class UserProfile extends Component {
       bio: "",
       id: ""
     },
-    userPapers: []
+    userPapers: [],
+    postPaperToggle: false
   };
 
   componentDidMount() {
@@ -36,7 +38,7 @@ class UserProfile extends Component {
       this.setState({
         user: {
           username: user.data.attributes.username,
-          usertype: user.data.attributes.usertype,
+          usertype: user.data.attributes.usertype ? "Researcher" : "Peer",
           bio: user.data.attributes.bio,
           id: user.data.attributes.id
         },
@@ -71,10 +73,17 @@ class UserProfile extends Component {
     });
   };
 
+  showPostPaper = () => {
+    this.setState({
+      postPaperToggle: !this.state.postPaperToggle
+    });
+  };
+
   render() {
-    const { user } = this.state;
+    const { user, postPaperToggle } = this.state;
+    const {userPostsPaper, userPapers} = this.props
     return (
-      <Fragment>
+      <div className="user-profile-container">
         <h1>{user.username}</h1>
         <UserProfileImage username={user.username} />
         <UserRating />
@@ -84,10 +93,14 @@ class UserProfile extends Component {
             <form onSubmit={this.handleSubmit} className="bio-edit">
               <div className="form-buttons">
                 <button onClick={this.handleBioChange}>
-                  <span>🚮</span>
+                  <span role="img" role="img" aria-label="discard changes">
+                    🚮
+                  </span>
                 </button>
                 <button type="submit">
-                  <span>💾</span>
+                  <span role="img" aria-label="save changes">
+                    💾
+                  </span>
                 </button>
               </div>
               <textarea
@@ -104,18 +117,23 @@ class UserProfile extends Component {
             this.props.user.user_id ? (
               <Fragment>
                 <button onClick={this.handleBioChange}>
-                  <span>✏️</span>
+                  <span role="img" aria-label="edit bio">
+                    ✏️
+                  </span>
                 </button>
-                <p>{this.props.user.bio}</p>
+                <p>{user.bio}</p>
               </Fragment>
             ) : null}
           </Fragment>
         )}
-        <h5>Your Papers</h5>{" "}
-        <UserPapersContainer userPapers={this.state.userPapers} />
+        <h5>Your Papers</h5>
+        {postPaperToggle ? (
+          <PostPaper showPostPaper={this.showPostPaper} user_id={user.id} userPostsPaper={this.props.userPostsPaper} />
+        ) :  <Button onClick={this.showPostPaper}>add a paper</Button>}
+        <UserPapersContainer userPapers={userPapers} />
         <h5>Your Reviews</h5>
         <h5>Journal Clubs</h5>
-      </Fragment>
+      </div>
     );
   }
 }

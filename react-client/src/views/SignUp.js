@@ -36,7 +36,7 @@ class SignUp extends Component {
   render() {
     console.log(this.props.loggingUser);
     const view = this.props.loggingUser ? (
-      <Segment textAlign="center" style={{ height: "100vh" }}>
+      <Segment textAlign="center" style={{ height: "100vh", "z-index": "-1" }}>
         <Dimmer active inverted>
           <Loader size="large">Loading</Loader>
         </Dimmer>

@@ -105,6 +105,19 @@ const fetchPaper = id => {
     .catch(handleServerError);
 };
 
+const postPaper = paper => {
+  const configObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ paper })
+  };
+  return fetch(papersURL, configObj)
+    .then(jsonify)
+    .catch(handleServerError);
+};
+
 export default {
   validateUser,
   signUpUser,
@@ -113,5 +126,6 @@ export default {
   updateUser,
   fetchUser,
   fetchAllPapers,
-  fetchPaper
+  fetchPaper,
+  postPaper
 };

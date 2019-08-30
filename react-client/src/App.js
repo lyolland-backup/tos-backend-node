@@ -43,7 +43,9 @@ class App extends Component {
           user: {
             username: user.user.data.attributes.username,
             user_id: user.user.data.attributes.id,
-            usertype: user.user.data.attributes.usertype,
+            usertype: user.user.data.attributes.usertype
+              ? "Researcher"
+              : "Peer",
             bio: user.user.data.attributes.bio
           }
         });
@@ -88,7 +90,7 @@ class App extends Component {
               user: {
                 username: user.data.attributes.username,
                 user_id: user.data.attributes.id,
-                usertype: user.data.attributes.usertype,
+                usertype: user.data.attributes.usertype ? "Researcher" : "Peer",
                 bio: user.data.attributes.bio
               }
             });
@@ -118,7 +120,7 @@ class App extends Component {
             user: {
               username: user.data.attributes.username,
               user_id: user.data.attributes.id,
-              usertype: user.data.attributes.usertype,
+              usertype: user.data.attributes.usertype ? "Researcher" : "Peer",
               bio: user.data.attributes.bio
             }
           });
@@ -153,12 +155,20 @@ class App extends Component {
     });
   };
 
-  showMenu = () =>
+  userPostsPaper = paper => {
+    console.log("posting paper ... 🧻", paper);
+    API.postPaper(paper).then(paper => {
+      this.setState({
+        userPapers: [...this.state.userPapers, paper.data.attributes]
+      })
+    })
+  };
+
+  showMenu = () => {
     this.setState({
       menu: !this.state.menu
     });
-  
-  
+  };
   render() {
     return (
       <div className="App">
@@ -167,8 +177,14 @@ class App extends Component {
           signOut={this.signOut}
           showMenu={this.showMenu}
         />
-   
-        {!this.state.menu ? null : <Menu menu={this.state.menu} user={this.state.user} signOut={this.signOut} />}
+
+        {!this.state.menu ? null : (
+          <Menu
+            menu={this.state.menu}
+            user={this.state.user}
+            signOut={this.signOut}
+          />
+        )}
         <CreateRoutes
           user={this.state.user}
           signOut={this.signOut}
@@ -178,6 +194,7 @@ class App extends Component {
           updateBio={this.updateBio}
           userPapers={this.state.userPapers}
           allPapers={this.state.allPapers}
+          userPostsPaper={this.userPostsPaper}
         />
       </div>
     );

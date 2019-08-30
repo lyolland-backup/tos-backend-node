@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Button, Menu } from "semantic-ui-react";
+import { Button, Menu, Icon } from "semantic-ui-react";
 
 class MenuBar extends Component {
   render() {
@@ -18,7 +18,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Sign In<span>👋</span>
+            Sign In<span role="img" aria-label="Sign In">👋</span>
           </NavLink>
           <NavLink
             exact
@@ -28,7 +28,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Home<span>🏠</span>
+            Home<span role="img" aria-label="Home">🏠</span>
           </NavLink>
 
           <NavLink
@@ -39,7 +39,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Sign Up<span>👋</span>
+            Sign Up<span role="img" aria-label="Sign Up">👋</span>
           </NavLink>
           <NavLink
             onClick={showMenu}
@@ -48,7 +48,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Menu<span>🍔</span>
+            Menu<span role="img" aria-label="Menu">🍔</span>
           </NavLink>
         </Fragment>
       ) : (
@@ -60,7 +60,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Sign Out<span>👋</span>
+            Sign Out<span role="img" aria-label="Sign Out">👋</span>
           </NavLink>
           <NavLink
             exact
@@ -70,7 +70,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Home<span>🏠</span>
+            Home<span role="img" aria-label="Home">🏠</span>
           </NavLink>
 
           <NavLink
@@ -81,7 +81,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Profile<span>👩‍🔬</span>
+            Profile<span role="img" aria-label="user profile">👩‍🔬</span>
           </NavLink>
           <NavLink
             onClick={showMenu}
@@ -90,7 +90,7 @@ class MenuBar extends Component {
               color: "#f9009a"
             }}
           >
-            Menu<span>🍔</span>
+            Menu<span role="img" aria-label="menu">🍔</span>
           </NavLink>
         </Fragment>
       );

@@ -18,9 +18,11 @@ ActiveRecord::Schema.define(version: 2019_08_29_080901) do
   create_table "papers", force: :cascade do |t|
     t.string "title"
     t.string "abstract"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "category"
+    t.index ["user_id"], name: "index_papers_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -33,15 +35,6 @@ ActiveRecord::Schema.define(version: 2019_08_29_080901) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
-  create_table "user_papers", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "paper_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["paper_id"], name: "index_user_papers_on_paper_id"
-    t.index ["user_id"], name: "index_user_papers_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.boolean "usertype"
@@ -51,8 +44,7 @@ ActiveRecord::Schema.define(version: 2019_08_29_080901) do
     t.string "bio"
   end
 
+  add_foreign_key "papers", "users"
   add_foreign_key "reviews", "papers"
   add_foreign_key "reviews", "users"
-  add_foreign_key "user_papers", "papers"
-  add_foreign_key "user_papers", "users"
 end
