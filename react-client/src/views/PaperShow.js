@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import API from "../adapters/API";
 import AuthorList from "../components/AuthorListItem";
-
+import { Link } from "react-router-dom";
 class PaperShow extends Component {
   state = {
     paper: {
@@ -23,12 +23,13 @@ class PaperShow extends Component {
           title: paper.data.attributes.title,
           abstract: paper.data.attributes.abstract,
           category: paper.data.attributes.category,
-          author: paper.data.attributes.user.username
+          author: paper.data.attributes.user.username,
+          authorID: paper.data.attributes.user.id,
+          doi: paper.data.attributes.doi
         }
       });
     });
   }
-
 
   handleDOISubmit = (e, doi) => {
     e.preventDefault();
@@ -45,10 +46,10 @@ class PaperShow extends Component {
       });
   };
 
-
   render() {
-    const { title, abstract, category, author } = this.state.paper;
+    const { title, abstract, category, author, doi, authorID } = this.state.paper;
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
+    const path = `/users/${authorID}`;
     return (
       <div className="paper-show-container">
         {/* <MenuBar user={this.props.user} signOut={this.props.signOut} /> */}
@@ -56,6 +57,7 @@ class PaperShow extends Component {
           <h1>{title}</h1>
           <h2>{author}</h2>
           <h5>{category}</h5>
+          <Link to={path}>{author}</Link>
           <p>{abstract}</p>
         </div>
       </div>

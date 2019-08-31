@@ -4,15 +4,15 @@ import Paper from "../components/Paper";
 class PaperIndexContainer extends Component {
   render() {
     const { allPapers } = this.props;
-    console.log("getting these props 🎁", allPapers);
+    console.log("papers in the index page", allPapers)
 
     const papers = allPapers.map(p => (
-      <Paper key={p.id} id={p.id} title={p.title} category={p.category}/>
+      <Paper key={p.id} id={p.id} {...p} />
     ));
+
     return (
       <div>
-        <h1>paper index container</h1>
-        <ul>{papers}</ul>
+        <ul className="papers-list">{papers}</ul>
       </div>
     );
   }

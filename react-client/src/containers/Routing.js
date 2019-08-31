@@ -17,7 +17,8 @@ const CreateRoutes = ({
   updateBio,
   userPapers,
   allPapers,
-  userPostsPaper
+  userPostsPaper,
+  returnAllPapers
 }) => {
   return (
     <Switch>

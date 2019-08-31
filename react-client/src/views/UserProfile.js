@@ -86,9 +86,7 @@ class UserProfile extends Component {
   };
 
   render() {
-
-    const { user, postPaperToggle, userPapers } = this.state;
-    const { userPostsPaper } = this.props;
+    const { user, postPaperToggle } = this.state;
     return (
       <div className="user-profile-container">
         <h1>{user.username}</h1>

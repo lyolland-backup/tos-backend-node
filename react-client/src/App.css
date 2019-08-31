@@ -166,3 +166,32 @@ header a {
   margin:auto;
   /* height: 400px; */
 }
+
+.papers-list {
+  list-style: none;
+  text-align: center;
+  width: 80%;
+  padding: 0;
+  margin: 0 auto 0 auto;
+}
+
+.papers-list li {
+  padding-bottom: 15px;
+  padding-top: 15px;
+  /* width: % */
+}
+
+.papers-list li a {
+  margin: auto;
+  font-size: 1.5em;
+}
+
+.paper-category {
+  /* font-size: 1em; */
+  background-color: #282c45;
+  padding: 5px;
+  border-radius: 5px;
+  width: 20%;
+  margin: auto;
+  color: #c7c6c6;
+}

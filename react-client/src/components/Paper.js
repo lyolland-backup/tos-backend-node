@@ -1,15 +1,20 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-const Paper = ({ title, id, category }) => {
-  const path = `/papers/${id}`;
-  return (
-    <div>
-      <Link to={path}>{title}</Link>
-      
-      <span>{category}</span>
-    </div>
-  );
-};
+class Paper extends Component {
 
-export default Paper
+  upCaseTitles = title => title.split(" ").map(t => t[0].toUpperCase()+t.slice(1)).join(" ")
+
+  render() {
+    const path = `/papers/${this.props.id}`;
+    console.log(this.props);
+    return (
+      <li >
+       <div> <Link to={path}>{this.upCaseTitles(this.props.title)}</Link> </div>
+       <div className="paper-category"> <span>{this.props.category}</span></div>
+      </li>
+    );
+  }
+}
+
+export default Paper;

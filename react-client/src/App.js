@@ -57,7 +57,8 @@ class App extends Component {
               user_id: paper.attributes.user.id,
               title: paper.attributes.title,
               abstract: paper.attributes.abstract,
-              doi: paper.attributes.doi
+              doi: paper.attributes.doi, 
+              category: paper.attributes.category
             }
           ]
         });
@@ -181,7 +182,8 @@ class App extends Component {
               user_id: paper.data.attributes.user.id,
               title: paper.data.attributes.title,
               abstract: paper.data.attributes.abstract,
-              doi: paper.data.attributes.doi
+              doi: paper.data.attributes.doi,
+              category: paper.data.attributes.category
             }
           ]
         });
@@ -198,10 +200,8 @@ class App extends Component {
     });
   };
 
-  filterPapers = token => {
-    return this.state.allPapers.filter(paper => paper.user_id === parseInt(token))
-  }
-
+  filterPapers = token => this.state.allPapers.filter(paper => paper.user_id === parseInt(token))
+  
   render() {
     return (
       <div className="App">
