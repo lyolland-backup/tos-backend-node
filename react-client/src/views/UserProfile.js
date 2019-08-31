@@ -23,7 +23,8 @@ class UserProfile extends Component {
       openVersion: {
         url: "",
         pdfURL: ""
-      }
+      },
+      userPaperToggle: false
     };
   }
   componentDidMount() {
@@ -85,8 +86,15 @@ class UserProfile extends Component {
     });
   };
 
+  showUserPaperToggle = () => {
+    this.setState({
+      userPaperToggle: !this.state.userPaperToggle
+    });
+  };
+
   render() {
-    const { user, postPaperToggle } = this.state;
+    const { user, postPaperToggle, userPaperToggle } = this.state;
+
     return (
       <div className="user-profile-container">
         <h1>{user.username}</h1>
@@ -140,9 +148,22 @@ class UserProfile extends Component {
             userPostsPaper={this.props.userPostsPaper}
           />
         ) : (
-          <Button onClick={this.addPaperToggle}>add a paper</Button>
+          <Fragment>
+            {parseInt(this.props.match.params.access_token) ===
+            this.props.user.user_id ? (
+              <Button onClick={this.addPaperToggle}>add a paper</Button>
+            ) : null}
+            <Button onClick={this.showUserPaperToggle}>show papers</Button>
+          </Fragment>
         )}
-        <UserPapersContainer userPapers={this.props.userPapers(this.props.match.params.access_token)} />
+        {userPaperToggle ? (
+          <UserPapersContainer
+            userPapers={this.props.userPapers(
+              this.props.match.params.access_token
+            )}
+          />
+        ) : null}
+
         <h5>Your Reviews</h5>
         <h5>Journal Clubs</h5>
       </div>

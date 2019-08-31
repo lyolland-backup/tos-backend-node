@@ -11,11 +11,20 @@ class PaperShow extends Component {
       url_for_pdf: "",
       url: "",
       author: []
+    },
+    paperData: {
+      url: "",
+      pdf_url: ""
     }
   };
+  
   componentDidMount() {
     const { access_token } = this.props.match.params;
     console.log("The id to fetch => 🎁", this.props);
+    this.fetchPaper(access_token);
+  }
+
+  fetchPaper = access_token => {
     API.fetchPaper(access_token).then(paper => {
       console.log(paper.data);
       this.setState({
@@ -29,16 +38,15 @@ class PaperShow extends Component {
         }
       });
     });
-  }
+  };
 
-  handleDOISubmit = (e, doi) => {
-    e.preventDefault();
+  fetchDOI = doi => {
     fetch(`https://api.unpaywall.org/v2/${doi}?email=@`)
       .then(resp => resp.json())
       .then(paper => {
-        console.log(paper);
+        console.log("in the request :O =>>>>");
         this.setState({
-          user: {
+          paperData: {
             url: paper.best_oa_location.url,
             pdf_url: paper.best_oa_location.url_for_pdf
           }
@@ -46,8 +54,17 @@ class PaperShow extends Component {
       });
   };
 
+  handleError = e => console.log("it broked", e);
+
   render() {
-    const { title, abstract, category, author, doi, authorID } = this.state.paper;
+    const {
+      title,
+      abstract,
+      category,
+      author,
+      doi,
+      authorID
+    } = this.state.paper;
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
     const path = `/users/${authorID}`;
     return (

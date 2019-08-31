@@ -155,11 +155,20 @@ header a {
   margin-top: 10vh;
 }
 
-/* 
 .user-papers-container {
-  height: 200px;
-  overflow: scroll;
-} */
+  /* height: 300px; */
+
+  /* overflow-y: scroll; 
+  -webkit-overflow-scrolling: touch; */
+  border: 2px solid whitesmoke;
+  border-radius: 5px;
+}
+
+.user-papers-container li a {
+  margin: auto;
+  font-size: 1em;
+  padding-bottom: 5px;
+}
 
 .post-input-container {
   /* position: fixed; */
@@ -169,7 +178,8 @@ header a {
   /* height: 400px; */
 }
 
-.papers-list {
+.papers-list,
+.user-papers-container {
   list-style: none;
   text-align: center;
   width: 80%;
@@ -177,7 +187,8 @@ header a {
   margin: 0 auto 0 auto;
 }
 
-.papers-list li {
+.papers-list li,
+.user-papers-container li {
   padding-bottom: 15px;
   padding-top: 15px;
   /* width: % */
@@ -189,7 +200,7 @@ header a {
   padding-bottom: 10px;
 }
 
-div[class^="paper-category-"] {
+div[class^="paper-category-"] > span {
   padding: 5px;
   border-radius: 5px;
   width: 25%;
@@ -198,18 +209,29 @@ div[class^="paper-category-"] {
   border-radius: 0.5rem;
   text-decoration: none;
   color: #000;
-  font-size:90%;
-  padding: .2rem .3rem .2rem;
-
+  font-size: 90%;
+  padding: 0.2rem 0.2rem;
 }
-.paper-category-biology {
-  background: linear-gradient(to right,rgba(0, 170, 249, 0.2),rgba(154,0,249,0.2));
+.paper-category-biology > span {
+  background: linear-gradient(
+    to right,
+    rgba(0, 170, 249, 0.2),
+    rgba(154, 0, 249, 0.2)
+  );
 }
 
-.paper-category-physics {
-  background: linear-gradient(to right,rgba(249, 170, 0,0.2),rgba(249,0,154,0.2));
+.paper-category-physics > span {
+  background: linear-gradient(
+    to right,
+    rgba(249, 170, 0, 0.2),
+    rgba(249, 0, 154, 0.2)
+  );
 }
 
-.paper-category-chemistry {
-  background: linear-gradient(to right,rgba(0, 249, 170,0.2),rgba(154,249,0,0.2));
+.paper-category-chemistry > span {
+  background: linear-gradient(
+    to right,
+    rgba(0, 249, 170, 0.2),
+    rgba(154, 249, 0, 0.2)
+  );
 }
