@@ -8,10 +8,11 @@ class Paper extends Component {
   render() {
     const path = `/papers/${this.props.id}`;
     console.log(this.props);
+    const {title, category} = this.props
     return (
       <li >
-       <div> <Link to={path}>{this.upCaseTitles(this.props.title)}</Link> </div>
-       <div className="paper-category"> <span>{this.props.category}</span></div>
+       <div> <Link to={path}>{this.upCaseTitles(title)}</Link> </div>
+       <div className={`paper-category-${category.toLowerCase()}`}> <span>{category}</span></div>
       </li>
     );
   }

@@ -148,7 +148,9 @@ header a {
   outline: none;
 }
 
-.user-profile-container, .all-papers, .paper-show-container {
+.user-profile-container,
+.all-papers,
+.paper-show-container {
   /* position: absolute; */
   margin-top: 10vh;
 }
@@ -163,7 +165,7 @@ header a {
   /* position: fixed; */
   z-index: 999;
   width: 80%;
-  margin:auto;
+  margin: auto;
   /* height: 400px; */
 }
 
@@ -184,14 +186,30 @@ header a {
 .papers-list li a {
   margin: auto;
   font-size: 1.5em;
+  padding-bottom: 10px;
 }
 
-.paper-category {
-  /* font-size: 1em; */
-  background-color: #282c45;
+div[class^="paper-category-"] {
   padding: 5px;
   border-radius: 5px;
-  width: 20%;
+  width: 25%;
   margin: auto;
-  color: #c7c6c6;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #000;
+  font-size:90%;
+  padding: .2rem .3rem .2rem;
+
+}
+.paper-category-biology {
+  background: linear-gradient(to right,rgba(0, 170, 249, 0.2),rgba(154,0,249,0.2));
+}
+
+.paper-category-physics {
+  background: linear-gradient(to right,rgba(249, 170, 0,0.2),rgba(249,0,154,0.2));
+}
+
+.paper-category-chemistry {
+  background: linear-gradient(to right,rgba(0, 249, 170,0.2),rgba(154,249,0,0.2));
 }
