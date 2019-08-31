@@ -106,6 +106,8 @@ const fetchPaper = id => {
 };
 
 const postPaper = paper => {
+  console.log("paper object in API method ... 🧻", paper);
+
   const configObj = {
     method: "POST",
     headers: {

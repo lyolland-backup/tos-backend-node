@@ -1,6 +1,6 @@
 class Api::V1::PaperSerializer 
     include FastJsonapi::ObjectSerializer
-    attributes :id, :title, :abstract, :category, :user
+    attributes :id, :title, :abstract, :category, :doi, :user
     # belongs_to :user
 end
   

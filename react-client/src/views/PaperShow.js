@@ -8,6 +8,8 @@ class PaperShow extends Component {
       title: "",
       abstract: "",
       category: "",
+      url_for_pdf: "",
+      url: "",
       author: []
     }
   };
@@ -26,6 +28,24 @@ class PaperShow extends Component {
       });
     });
   }
+
+
+  handleDOISubmit = (e, doi) => {
+    e.preventDefault();
+    fetch(`https://api.unpaywall.org/v2/${doi}?email=@`)
+      .then(resp => resp.json())
+      .then(paper => {
+        console.log(paper);
+        this.setState({
+          user: {
+            url: paper.best_oa_location.url,
+            pdf_url: paper.best_oa_location.url_for_pdf
+          }
+        });
+      });
+  };
+
+
   render() {
     const { title, abstract, category, author } = this.state.paper;
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);

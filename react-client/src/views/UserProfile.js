@@ -8,18 +8,24 @@ import { Button } from "semantic-ui-react";
 import PostPaper from "./PostPaper";
 
 class UserProfile extends Component {
-  state = {
-    editBioToggle: null,
-    user: {
-      username: "",
-      usertype: "",
-      bio: "",
-      id: ""
-    },
-    userPapers: [],
-    postPaperToggle: false
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      editBioToggle: null,
+      user: {
+        username: "",
+        usertype: "",
+        bio: "",
+        id: ""
+      },
+      userPapers: props.allPapers,
+      postPaperToggle: false,
+      openVersion: {
+        url: "",
+        pdfURL: ""
+      }
+    };
+  }
   componentDidMount() {
     this.setUserData();
   }
@@ -32,9 +38,9 @@ class UserProfile extends Component {
 
   setUserData = () => {
     const { access_token } = this.props.match.params;
-    console.log("access => 🎁", access_token);
+    // this.setState({ userPapers: this.props.allPapers})
+    // this.setState({ userPapers: this.props.allPapers });
     API.fetchUser(access_token).then(user => {
-      console.log("attributes from user => 🎁", user.data.attributes);
       this.setState({
         user: {
           username: user.data.attributes.username,
@@ -42,7 +48,7 @@ class UserProfile extends Component {
           bio: user.data.attributes.bio,
           id: user.data.attributes.id
         },
-        userPapers: user.data.attributes.papers.map(paper => paper),
+        userPapers: this.props.allPapers,
         editBioToggle:
           parseInt(this.props.match.params.access_token) ===
           this.props.user.user_id
@@ -80,13 +86,15 @@ class UserProfile extends Component {
   };
 
   render() {
-    const { user, postPaperToggle } = this.state;
-    const {userPostsPaper, userPapers} = this.props
+
+    const { user, postPaperToggle, userPapers } = this.state;
+    const { userPostsPaper } = this.props;
     return (
       <div className="user-profile-container">
         <h1>{user.username}</h1>
         <UserProfileImage username={user.username} />
         <UserRating />
+
         <h4>Bio:</h4>
         {this.state.editBioToggle ? (
           <Fragment>
@@ -128,9 +136,15 @@ class UserProfile extends Component {
         )}
         <h5>Your Papers</h5>
         {postPaperToggle ? (
-          <PostPaper addPaperToggle={this.addPaperToggle} user_id={user.id} userPostsPaper={this.props.userPostsPaper}/>
-        ) :  <Button onClick={this.addPaperToggle}>add a paper</Button>}
-        <UserPapersContainer userPapers={userPapers} />
+          <PostPaper
+            addPaperToggle={this.addPaperToggle}
+            user_id={user.id}
+            userPostsPaper={this.props.userPostsPaper}
+          />
+        ) : (
+          <Button onClick={this.addPaperToggle}>add a paper</Button>
+        )}
+        <UserPapersContainer userPapers={this.props.userPapers(this.props.match.params.access_token)} />
         <h5>Your Reviews</h5>
         <h5>Journal Clubs</h5>
       </div>

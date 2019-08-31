@@ -9,7 +9,7 @@ class MenuBar extends Component {
   };
   render() {
     const { user, showMenu } = this.props;
-    console.log("this is the current user => 👋", user.user_id);
+    // console.log("this is the current user => 👋", user.user_id);
     const profilePath = `/users/${user.user_id}`;
 
     const menu =

@@ -3,7 +3,7 @@ import HomeContentContainer from "../containers/HomeContentContainer";
 
 class Home extends Component {
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div>
         <div className="home-body">

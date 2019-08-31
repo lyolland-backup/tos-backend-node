@@ -4,28 +4,10 @@ import { withRouter, NavLink } from "react-router-dom";
 import API from "./adapters/API";
 import MenuBar from "./components/MenuBar";
 import Menu from "./views/Menu";
-import Joi from "joi";
+// import Joi from "joi";
 
 import CreateRoutes from "./containers/Routing";
-
-const userSchema = Joi.object().keys({
-  username: Joi.string()
-    .min(1)
-    .required(),
-  password: Joi.string()
-    .min(3)
-    .required()
-});
-
-const paperSchema = Joi.object().keys({
-  title: Joi.string()
-    .min(1)
-    .required(),
-  abstract: Joi.string()
-    .min(10)
-    .required(),
-  category: Joi.string().required()
-});
+import PaperIndexContainer from "./containers/PaperIndexContainer";
 
 class App extends Component {
   state = {
@@ -65,38 +47,37 @@ class App extends Component {
       }
     });
     API.fetchAllPapers().then(data => {
-      console.log("fetching papers...🧻");
+      console.log("fetching papers...🧻", data);
       data.data.map(paper => {
         this.setState({
-          allPapers: [...this.state.allPapers, paper.attributes]
+          allPapers: [
+            ...this.state.allPapers,
+            {
+              id: paper.attributes.id,
+              user_id: paper.attributes.user.id,
+              title: paper.attributes.title,
+              abstract: paper.attributes.abstract,
+              doi: paper.attributes.doi
+            }
+          ]
         });
       });
     });
   }
 
   validateUserForm = user => {
-    // const userData = {
-    //   username: user.username,
-    //   password: user.password
-    // };
-
-    return user.username.trim().length >= 1 && user.password.trim().length >= 3 ? true : false
-    // const result = Joi.validate(userData, userSchema);
-    // return !result.error ? true : result.error;
+    return user.username.trim().length >= 1 && user.password.trim().length >= 3
+      ? true
+      : false;
   };
 
   validatePaperForm = paper => {
     console.log("posting this paper ... 🤓", paper);
-    // const paperData = {
-    //   title: paper.title,
-    //   abstract: paper.abstract,
-    //   category: paper.category
-    // };
-    // const result = Joi.validate(paperData, paperSchema);
-    return paper.title.trim().length > 1 && paper.abstract.trim().length >= 10 && paper.category.trim().length >= 0
-    ? true : false
-
-    // return !result.error ? true : false;
+    return paper.title.trim().length > 1 &&
+      paper.abstract.trim().length >= 10 &&
+      paper.category.trim().length >= 0
+      ? true
+      : false;
   };
 
   submitSignUp = user => {
@@ -154,7 +135,6 @@ class App extends Component {
       });
     } else {
       // return an alert when sign in fails validation step - use the error handler on back end
-
     }
   };
 
@@ -184,23 +164,32 @@ class App extends Component {
   userPostsPaper = paper => {
     console.log("posting paper ... 🧻", paper);
 
-    if (this.validatePaperForm(paper)) {
-      console.log("posting paper ... 🤓");
-      this.setState({
-        loggingUser: true
-      });
-      API.postPaper(paper).then(paper => {
-        setTimeout(() => {
-          this.setState({
-            loggingUser: false,
-            userPapers: [...this.state.userPapers, paper.data.attributes],
-            allPaper: [...this.state.allPapers, paper.data.attributes]
-          });
-        }, 1000);
-      });
-    } else {
-      console.log(" paper not posted ☹️");
-    }
+    // if (this.validatePaperForm(paper)) {
+    console.log("posting paper ... 🤓");
+    //   this.setState({
+    //     loggingUser: true
+    //   });
+    API.postPaper(paper).then(paper => {
+      console.log("posting paper ... 🧻", paper);
+
+      setTimeout(() => {
+        this.setState({
+          loggingUser: false,
+          allPapers: [...this.state.allPapers, 
+            {
+              id: paper.data.attributes.id,
+              user_id: paper.data.attributes.user.id,
+              title: paper.data.attributes.title,
+              abstract: paper.data.attributes.abstract,
+              doi: paper.data.attributes.doi
+            }
+          ]
+        });
+      }, 1000);
+    });
+    // } else {
+    //   console.log(" paper not posted ☹️");
+    // }
   };
 
   showMenu = () => {
@@ -208,6 +197,11 @@ class App extends Component {
       menu: !this.state.menu
     });
   };
+
+  filterPapers = token => {
+    return this.state.allPapers.filter(paper => paper.user_id === parseInt(token))
+  }
+
   render() {
     return (
       <div className="App">
@@ -232,7 +226,7 @@ class App extends Component {
           loggingUser={this.state.loggingUser}
           submitSignIn={this.submitSignIn}
           updateBio={this.updateBio}
-          userPapers={this.state.userPapers}
+          userPapers={this.filterPapers}
           allPapers={this.state.allPapers}
           userPostsPaper={this.userPostsPaper}
         />

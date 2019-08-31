@@ -24,7 +24,7 @@ class Api::V1::PapersController < ApplicationController
 
     private
     def paper_params
-        params.require(:paper).permit(:id, :title, :abstract, :category, :user_id)
+        params.require(:paper).permit(:id, :title, :abstract, :category, :doi, :user_id)
     end
 
 end
