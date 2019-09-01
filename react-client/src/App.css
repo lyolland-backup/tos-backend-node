@@ -150,7 +150,7 @@ header a {
 
 .user-profile-container,
 .all-papers,
-.paper-show-container {
+.paper-show-container, .not-found {
   /* position: absolute; */
   margin-top: 10vh;
 }

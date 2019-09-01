@@ -18,9 +18,13 @@ const CreateRoutes = ({
   userPapers,
   allPapers,
   userPostsPaper,
-  returnAllPapers
+  returnAllPapers,
+  allUsers,
+  allPaperIDs
 }) => {
-  return (
+  // console.log("the user in routes ====>", props);
+
+  return user.username === null ? (
     <Switch>
       <Route
         exact
@@ -41,18 +45,15 @@ const CreateRoutes = ({
           <SignIn submitSignIn={submitSignIn} loggingUser={loggingUser} />
         )}
       />
-      {/* <Route
+      <Route render={() => <NotFound user={user} signOut={signOut} />} />
+    </Switch>
+  ) : (
+    <Switch>
+      <Route
         exact
-        path="/profile"
-        render={() => (
-          <UserProfile
-            user={user}
-            signOut={signOut}
-            updateBio={updateBio}
-            userPapers={userPapers}
-          />
-        )}
-      /> */}
+        path="/"
+        render={() => <Home user={user} signOut={signOut} />}
+      />
       <Route
         exact
         path="/users/:access_token"
@@ -65,6 +66,7 @@ const CreateRoutes = ({
             userPostsPaper={userPostsPaper}
             loggingUser={loggingUser}
             allPapers={allPapers}
+            allUsers={allUsers}
           />
         )}
       />
@@ -72,7 +74,7 @@ const CreateRoutes = ({
         exact
         path="/papers/:access_token"
         render={({ match }) => (
-          <PaperShow match={match} user={user} signOut={signOut} />
+          <PaperShow match={match} user={user} signOut={signOut} allPapers={allPapers} allPaperIDs={allPaperIDs}/>
         )}
       />
       <Route
@@ -80,7 +82,6 @@ const CreateRoutes = ({
         path="/papers"
         render={() => <PaperIndex allPapers={allPapers} />}
       />
-
       <Route render={() => <NotFound user={user} signOut={signOut} />} />
     </Switch>
   );

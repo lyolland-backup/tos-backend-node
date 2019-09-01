@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-
+import {withRouter} from "react-router-dom"
 import UserProfileImage from "../components/UserProfileImage";
 import UserRating from "../components/UserRating";
 import UserPapersContainer from "../containers/UserPapersContainer";
@@ -28,7 +28,9 @@ class UserProfile extends Component {
     };
   }
   componentDidMount() {
-    this.setUserData();
+    const { match, history, allUsers } = this.props;
+    console.log(this.props)
+    !allUsers.includes(match.params.access_token) ? history.push("/404") : this.setUserData();
   }
 
   componentDidUpdate() {
@@ -39,8 +41,6 @@ class UserProfile extends Component {
 
   setUserData = () => {
     const { access_token } = this.props.match.params;
-    // this.setState({ userPapers: this.props.allPapers})
-    // this.setState({ userPapers: this.props.allPapers });
     API.fetchUser(access_token).then(user => {
       this.setState({
         user: {
@@ -171,4 +171,4 @@ class UserProfile extends Component {
   }
 }
 
-export default UserProfile;
+export default withRouter(UserProfile);

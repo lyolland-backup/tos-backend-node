@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import API from "../adapters/API";
 import AuthorList from "../components/AuthorListItem";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 class PaperShow extends Component {
   state = {
     paper: {
@@ -17,16 +17,20 @@ class PaperShow extends Component {
       pdf_url: ""
     }
   };
-  
+
   componentDidMount() {
+    const { match, history, allPaperIDs } = this.props;
     const { access_token } = this.props.match.params;
-    console.log("The id to fetch => 🎁", this.props);
     this.fetchPaper(access_token);
+
+    // console.log(allUsers)
+    !allPaperIDs.includes(access_token)
+      ? history.push("/404")
+      : this.fetchPaper(access_token);
   }
 
   fetchPaper = access_token => {
     API.fetchPaper(access_token).then(paper => {
-      console.log(paper.data);
       this.setState({
         paper: {
           title: paper.data.attributes.title,
@@ -54,8 +58,6 @@ class PaperShow extends Component {
       });
   };
 
-  handleError = e => console.log("it broked", e);
-
   render() {
     const {
       title,
@@ -82,4 +84,4 @@ class PaperShow extends Component {
   }
 }
 
-export default PaperShow;
+export default withRouter(PaperShow);

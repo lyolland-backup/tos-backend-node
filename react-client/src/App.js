@@ -21,7 +21,9 @@ class App extends Component {
     userPapers: [],
     allPapers: [],
     menu: false,
-    formError: false
+    formError: false,
+    allUsers: [],
+    allPaperIDs: []
   };
 
   componentDidMount() {
@@ -46,9 +48,14 @@ class App extends Component {
         );
       }
     });
+    API.fetchAllUsers().then(data => {
+      this.setState({
+        allUsers: data.data.map(user => user.id)
+      })
+    });
     API.fetchAllPapers().then(data => {
-      console.log("fetching papers...🧻", data);
       data.data.map(paper => {
+        console.log("all the papers", paper)
         this.setState({
           allPapers: [
             ...this.state.allPapers,
@@ -57,10 +64,11 @@ class App extends Component {
               user_id: paper.attributes.user.id,
               title: paper.attributes.title,
               abstract: paper.attributes.abstract,
-              doi: paper.attributes.doi, 
+              doi: paper.attributes.doi,
               category: paper.attributes.category
             }
-          ]
+          ],
+          allPaperIDs: [ ...this.state.allPaperIDs, paper.id] // swill grab ids from paper object in refactor
         });
       });
     });
@@ -176,7 +184,8 @@ class App extends Component {
       setTimeout(() => {
         this.setState({
           loggingUser: false,
-          allPapers: [...this.state.allPapers, 
+          allPapers: [
+            ...this.state.allPapers,
             {
               id: paper.data.attributes.id,
               user_id: paper.data.attributes.user.id,
@@ -200,8 +209,9 @@ class App extends Component {
     });
   };
 
-  filterPapers = token => this.state.allPapers.filter(paper => paper.user_id === parseInt(token))
-  
+  filterPapers = token =>
+    this.state.allPapers.filter(paper => paper.user_id === parseInt(token));
+
   render() {
     return (
       <div className="App">
@@ -229,6 +239,8 @@ class App extends Component {
           userPapers={this.filterPapers}
           allPapers={this.state.allPapers}
           userPostsPaper={this.userPostsPaper}
+          allUsers={this.state.allUsers}
+          allPaperIDs={this.state.allPaperIDs}
         />
       </div>
     );

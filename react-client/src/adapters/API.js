@@ -23,7 +23,7 @@ const saveToken = data => {
   return data.user;
 };
 
-const handleServerError = response => {
+const handleServerError = response => {  
   throw response;
 };
 
@@ -93,6 +93,13 @@ const fetchUser = id => {
     .catch(handleServerError);
 };
 
+const fetchAllUsers= () => {
+  return fetch(usersURL)
+    .then(jsonify)
+    .catch(handleServerError);
+};
+
+
 const fetchAllPapers = () => {
   return fetch(papersURL)
     .then(jsonify)
@@ -129,5 +136,6 @@ export default {
   fetchUser,
   fetchAllPapers,
   fetchPaper,
-  postPaper
+  postPaper,
+  fetchAllUsers
 };
