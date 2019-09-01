@@ -20,7 +20,8 @@ const CreateRoutes = ({
   userPostsPaper,
   returnAllPapers,
   allUsers,
-  allPaperIDs
+  allPaperIDs,
+  usersPostsReview
 }) => {
   // console.log("the user in routes ====>", props);
 
@@ -74,7 +75,14 @@ const CreateRoutes = ({
         exact
         path="/papers/:access_token"
         render={({ match }) => (
-          <PaperShow match={match} user={user} signOut={signOut} allPapers={allPapers} allPaperIDs={allPaperIDs}/>
+          <PaperShow
+            match={match}
+            user={user}
+            signOut={signOut}
+            allPapers={allPapers}
+            allPaperIDs={allPaperIDs}
+            usersPostsReview={usersPostsReview}
+          />
         )}
       />
       <Route

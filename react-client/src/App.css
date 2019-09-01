@@ -179,7 +179,7 @@ header a {
 }
 
 .papers-list,
-.user-papers-container {
+.user-papers-container, .reviews-container {
   list-style: none;
   text-align: center;
   width: 80%;
@@ -188,7 +188,7 @@ header a {
 }
 
 .papers-list li,
-.user-papers-container li {
+.user-papers-container li, .reviews-container li {
   padding-bottom: 15px;
   padding-top: 15px;
   /* width: % */

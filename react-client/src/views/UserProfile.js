@@ -140,7 +140,7 @@ class UserProfile extends Component {
             ) : null}
           </Fragment>
         )}
-        <h5>Your Papers</h5>
+        <h5>Papers</h5>
         {postPaperToggle ? (
           <PostPaper
             addPaperToggle={this.addPaperToggle}
@@ -164,7 +164,7 @@ class UserProfile extends Component {
           />
         ) : null}
 
-        <h5>Your Reviews</h5>
+        <h5>Reviews</h5>
         <h5>Journal Clubs</h5>
       </div>
     );

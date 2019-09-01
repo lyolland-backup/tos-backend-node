@@ -1,7 +1,5 @@
 class User < ApplicationRecord
 
-  # has_many :user_paper
-  # has_many :papers, through: :user_paper
   has_many :reviews
   has_many :papers
 

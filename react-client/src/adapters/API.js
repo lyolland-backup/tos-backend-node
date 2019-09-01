@@ -7,6 +7,7 @@ const validateURL = `${endpoint}/validate`;
 const updateURL = `${endpoint}/users/`;
 
 const papersURL = `${endpoint}/papers`;
+const reviewsURL = `${endpoint}/reviews`;
 
 const jsonify = resp => {
   if (resp.ok) return resp.json();
@@ -23,7 +24,7 @@ const saveToken = data => {
   return data.user;
 };
 
-const handleServerError = response => {  
+const handleServerError = response => {
   throw response;
 };
 
@@ -93,12 +94,11 @@ const fetchUser = id => {
     .catch(handleServerError);
 };
 
-const fetchAllUsers= () => {
+const fetchAllUsers = () => {
   return fetch(usersURL)
     .then(jsonify)
     .catch(handleServerError);
 };
-
 
 const fetchAllPapers = () => {
   return fetch(papersURL)
@@ -127,6 +127,17 @@ const postPaper = paper => {
     .catch(handleServerError);
 };
 
+const postReview = review => {
+  const configObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ review })
+  };
+  return fetch(reviewsURL, configObj).then(jsonify)
+};
+
 export default {
   validateUser,
   signUpUser,
@@ -137,5 +148,6 @@ export default {
   fetchAllPapers,
   fetchPaper,
   postPaper,
-  fetchAllUsers
+  fetchAllUsers,
+  postReview
 };

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
         resources :users, only: [:index, :create, :update, :show]
         resources :papers, only:  [:index, :show, :create]
-        resources :reviews
+        resources :reviews, only:  [:index, :show, :create]
         get '/validate', to: 'auth#validate_token'
         post "/signin", to: "auth#create"
         get '/profile', to: 'users#profile' 

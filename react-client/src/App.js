@@ -4,10 +4,8 @@ import { withRouter, NavLink } from "react-router-dom";
 import API from "./adapters/API";
 import MenuBar from "./components/MenuBar";
 import Menu from "./views/Menu";
-// import Joi from "joi";
 
 import CreateRoutes from "./containers/Routing";
-import PaperIndexContainer from "./containers/PaperIndexContainer";
 
 class App extends Component {
   state = {
@@ -55,7 +53,7 @@ class App extends Component {
     });
     API.fetchAllPapers().then(data => {
       data.data.map(paper => {
-        console.log("all the papers", paper)
+        // console.log("all the papers", paper)
         this.setState({
           allPapers: [
             ...this.state.allPapers,
@@ -68,7 +66,7 @@ class App extends Component {
               category: paper.attributes.category
             }
           ],
-          allPaperIDs: [ ...this.state.allPaperIDs, paper.id] // swill grab ids from paper object in refactor
+          allPaperIDs: [ ...this.state.allPaperIDs, paper.id] // will grab ids from paper object in refactor
         });
       });
     });
@@ -203,6 +201,11 @@ class App extends Component {
     // }
   };
 
+
+  usersPostsReview = review => {
+    API.postReview(review).then(review => console.log("here is the returned review object", review))
+  }
+
   showMenu = () => {
     this.setState({
       menu: !this.state.menu
@@ -241,6 +244,7 @@ class App extends Component {
           userPostsPaper={this.userPostsPaper}
           allUsers={this.state.allUsers}
           allPaperIDs={this.state.allPaperIDs}
+          usersPostsReview={this.usersPostsReview}
         />
       </div>
     );

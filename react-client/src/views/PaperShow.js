@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import API from "../adapters/API";
-import AuthorList from "../components/AuthorListItem";
 import { Link, withRouter } from "react-router-dom";
+import ReviewContainer from "../containers/ReviewsContainer";
 class PaperShow extends Component {
   state = {
     paper: {
@@ -15,21 +15,18 @@ class PaperShow extends Component {
     paperData: {
       url: "",
       pdf_url: ""
-    }
+    },
+    review: {
+      content: "",
+      paper_id: "",
+      user_id: ""
+    },
+    paperReviews: []
   };
 
   componentDidMount() {
     const { match, history, allPaperIDs } = this.props;
     const { access_token } = this.props.match.params;
-    this.fetchPaper(access_token);
-
-    // console.log(allUsers)
-    !allPaperIDs.includes(access_token)
-      ? history.push("/404")
-      : this.fetchPaper(access_token);
-  }
-
-  fetchPaper = access_token => {
     API.fetchPaper(access_token).then(paper => {
       this.setState({
         paper: {
@@ -38,11 +35,21 @@ class PaperShow extends Component {
           category: paper.data.attributes.category,
           author: paper.data.attributes.user.username,
           authorID: paper.data.attributes.user.id,
-          doi: paper.data.attributes.doi
-        }
+          doi: paper.data.attributes.doi,
+          id: paper.data.attributes.id
+        },
+        review: {
+          ...this.state.review,
+          user_id: paper.data.attributes.user.id,
+          paper_id: paper.data.attributes.id
+        },
+        paperReviews: paper.data.attributes.reviews.map(p => p)
       });
     });
-  };
+    // const { allPaperIDs, history } = this.props;
+    // const { access_token } = this.props.match.params;
+    // if (!allPaperIDs.includes(access_token)) history.push("/404");
+  }
 
   fetchDOI = doi => {
     fetch(`https://api.unpaywall.org/v2/${doi}?email=@`)
@@ -58,6 +65,20 @@ class PaperShow extends Component {
       });
   };
 
+  handleChange = e => {
+    this.setState({
+      review: { ...this.state.review, [e.target.name]: e.target.value }
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.usersPostsReview(this.state.review);
+    this.setState({
+      paperReviews: [...this.state.paperReviews, this.state.review]
+    });
+  };
+
   render() {
     const {
       title,
@@ -67,11 +88,11 @@ class PaperShow extends Component {
       doi,
       authorID
     } = this.state.paper;
+
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
     const path = `/users/${authorID}`;
     return (
       <div className="paper-show-container">
-        {/* <MenuBar user={this.props.user} signOut={this.props.signOut} /> */}
         <div>
           <h1>{title}</h1>
           <h2>{author}</h2>
@@ -79,6 +100,18 @@ class PaperShow extends Component {
           <Link to={path}>{author}</Link>
           <p>{abstract}</p>
         </div>
+
+        <h5>Reviews</h5>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text-area"
+            onChange={this.handleChange}
+            name="content"
+            placeholder="enter your review ..."
+          ></input>
+          <button type="submit"> submit review</button>
+        </form>
+        <ReviewContainer paperReviews={this.state.paperReviews} />
       </div>
     );
   }

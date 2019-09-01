@@ -5,6 +5,8 @@ class Api::V1::UserSerializer
     attributes :papers do |object|
         object.papers.as_json
     end
-    # has_many :papers
 
+    attributes :reviews do |object|
+        object.reviews.as_json
+    end
 end
