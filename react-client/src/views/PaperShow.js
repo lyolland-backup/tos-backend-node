@@ -21,36 +21,47 @@ class PaperShow extends Component {
       paper_id: "",
       user_id: ""
     },
-    paperReviews: []
+    paperReviews: [],
+    matched: ''
   };
 
   componentDidMount() {
     const { match, history, allPaperIDs } = this.props;
     const { access_token } = this.props.match.params;
-    API.fetchPaper(access_token).then(paper => {
-      this.setState({
-        paper: {
-          title: paper.data.attributes.title,
-          abstract: paper.data.attributes.abstract,
-          category: paper.data.attributes.category,
-          author: paper.data.attributes.user.username,
-          authorID: paper.data.attributes.user.id,
-          doi: paper.data.attributes.doi,
-          id: paper.data.attributes.id
-        },
-        review: {
-          ...this.state.review,
-          user_id: paper.data.attributes.user.id,
-          paper_id: paper.data.attributes.id
-        },
-        paperReviews: paper.data.attributes.reviews.map(p => p)
-      });
-    });
-    // const { allPaperIDs, history } = this.props;
-    // const { access_token } = this.props.match.params;
-    // if (!allPaperIDs.includes(access_token)) history.push("/404");
-  }
 
+    console.log("access_token", access_token)
+    console.log("allPaperIDs", allPaperIDs.includes(`${access_token}`))
+    this.setState({
+      matched: allPaperIDs.includes(`${access_token}`)
+    }) // ???
+
+    // RENDER 404/ NOT FOUND ON FAILED FETCH
+
+    API.fetchPaper(access_token)
+      .then(paper => {
+        this.setState({
+          paper: {
+            title: paper.data.attributes.title,
+            abstract: paper.data.attributes.abstract,
+            category: paper.data.attributes.category,
+            author: paper.data.attributes.user.username,
+            authorID: paper.data.attributes.user.id,
+            doi: paper.data.attributes.doi,
+            id: paper.data.attributes.id
+          },
+          review: {
+            ...this.state.review,
+            user_id: paper.data.attributes.user.id,
+            paper_id: paper.data.attributes.id
+          },
+          paperReviews: paper.data.attributes.reviews.map(p => p)
+        });
+      });
+
+    // .then(
+    // const { allPaperIDs, history } = this.props;
+    // const { access_token } = this.props.match.params;)
+  }
   fetchDOI = doi => {
     fetch(`https://api.unpaywall.org/v2/${doi}?email=@`)
       .then(resp => resp.json())
@@ -91,6 +102,7 @@ class PaperShow extends Component {
 
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
     const path = `/users/${authorID}`;
+    console.log("match state", this.state.matched)
     return (
       <div className="paper-show-container">
         <div>

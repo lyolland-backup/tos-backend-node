@@ -107,9 +107,7 @@ const fetchAllPapers = () => {
 };
 
 const fetchPaper = id => {
-  return fetch(papersURL + "/" + id)
-    .then(jsonify)
-    .catch(handleServerError);
+  return fetch(papersURL + "/" + id).then(jsonify)
 };
 
 const postPaper = paper => {
