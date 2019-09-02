@@ -3,7 +3,6 @@ const router = express.Router();
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
-
 const db = require("../db/connection");
 const users = db.get("users");
 users.createIndex("username", { unique: true });
@@ -19,6 +18,8 @@ const schema = Joi.object().keys({
     .alphanum()
     .min(6)
     .max(10)
+    .required(),
+    userType: Joi.bool()
     .required()
 });
 
@@ -42,6 +43,7 @@ router.post("/signup", (req, res, next) => {
         if (user) {
           //  if user exists respond with an error
           const error = new Error("That username is taken");
+          res.status(409)
           next(error);
         } else {
           //  hash the password
@@ -49,7 +51,8 @@ router.post("/signup", (req, res, next) => {
             //  insert new user
             const newUser = {
               username: req.body.username,
-              password: hashedPassword
+              password: hashedPassword,
+              userType: req.body.userType
             };
             users.insert(newUser).then(insertedUser => {
               delete insertedUser.password;
@@ -63,6 +66,7 @@ router.post("/signup", (req, res, next) => {
         }
       });
   } else {
+    res.status(422)
     next(result.error);
   }
 });

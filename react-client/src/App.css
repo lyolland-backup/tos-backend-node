@@ -150,7 +150,8 @@ header a {
 
 .user-profile-container,
 .all-papers,
-.paper-show-container, .not-found {
+.paper-show-container,
+.not-found {
   /* position: absolute; */
   margin-top: 10vh;
 }
@@ -179,7 +180,8 @@ header a {
 }
 
 .papers-list,
-.user-papers-container, .reviews-container {
+.user-papers-container,
+.reviews-container {
   list-style: none;
   text-align: center;
   width: 80%;
@@ -188,7 +190,8 @@ header a {
 }
 
 .papers-list li,
-.user-papers-container li, .reviews-container li {
+.user-papers-container li,
+.reviews-container li {
   padding-bottom: 15px;
   padding-top: 15px;
   /* width: % */
@@ -196,7 +199,7 @@ header a {
 
 .papers-list li a {
   margin: auto;
-  font-size: 1.5em;
+  font-size: 1.2em;
   padding-bottom: 10px;
 }
 
@@ -212,6 +215,7 @@ div[class^="paper-category-"] > span {
   font-size: 90%;
   padding: 0.2rem 0.2rem;
 }
+
 .paper-category-biology > span {
   background: linear-gradient(
     to right,
@@ -235,3 +239,23 @@ div[class^="paper-category-"] > span {
     rgba(154, 249, 0, 0.2)
   );
 }
+
+.main-list-item {
+  display: flex;
+  height:100%;
+  /* width: 80%; */
+
+}
+
+.main-title-container {
+  /* border: 0.5px solid black; */
+  padding: 5px;
+  width: 90%;
+}
+
+.main-rate-block {
+  width: 5%;
+  /* border: 0.5px solid black; */
+  height: 50px;
+}
+

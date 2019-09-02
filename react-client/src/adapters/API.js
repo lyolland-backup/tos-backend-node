@@ -89,9 +89,9 @@ const signInUser = user => {
 };
 
 const fetchUser = id => {
-  return fetch(usersURL + "/" + id)
-    // .then(jsonify)
-    // .catch(handleServerError);
+  return fetch(usersURL + "/" + id);
+  // .then(jsonify)
+  // .catch(handleServerError);
 };
 
 const fetchAllUsers = () => {
@@ -107,7 +107,7 @@ const fetchAllPapers = () => {
 };
 
 const fetchPaper = id => {
-  return fetch(papersURL + "/" + id)
+  return fetch(papersURL + "/" + id);
 };
 
 const postPaper = paper => {
@@ -133,7 +133,24 @@ const postReview = review => {
     },
     body: JSON.stringify({ review })
   };
-  return fetch(reviewsURL, configObj).then(jsonify)
+  return fetch(reviewsURL, configObj).then(jsonify);
+};
+
+const nodeSignUp = user => {
+  const API_URL = "http://localhost:5000/auth/signup";
+  console.log("user object => during in sign up method 🤓", user);
+  const body = {
+    username: user.username,
+    userType: user.usertype,
+    password: user.password
+  };
+  return fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  });
 };
 
 export default {
@@ -147,5 +164,6 @@ export default {
   fetchPaper,
   postPaper,
   fetchAllUsers,
-  postReview
+  postReview,
+  nodeSignUp
 };

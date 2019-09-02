@@ -117,6 +117,21 @@ class App extends Component {
         }
       });
     }
+    // API.nodeSignUp(user)
+    // .then(response => {
+    //   // debugger
+    //   if (response.ok) {
+    //     return response.json();
+    //   }
+    //   return response.json().then(error => {
+    //     throw new Error(error.message);
+    //   });
+    // })
+    // .then(user => console.log(user))
+    // .catch(error => {
+    //   this.state.errorMessage = error.message;
+    //   console.log(error);
+    // });
   };
 
   submitSignIn = user => {

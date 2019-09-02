@@ -1,14 +1,16 @@
 const express = require("express");
 // const morgan = require("morgan");
 const volleyball = require("volleyball");
-// const cors = require('cors')
+const cors = require('cors')
 
 const app = express();
 
 const auth = require("./auth/index");
 
 app.use(volleyball);
-// app.use(cors())
+app.use(cors({
+  origin: "http://localhost:3000"
+}))
 app.use(express.json());
  
 app.get("/", (req, res) => {
