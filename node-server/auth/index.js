@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
   res.json({
     message: "🔐 ✅"
   });
-});
+})
 
 // POST to auth/signup ...
 router.post("/signup", (req, res, next) => {
@@ -38,6 +38,7 @@ router.post("/signup", (req, res, next) => {
         username: req.body.username
       })
       .then(user => {
+        // check if user laready exists
         if (user) {
           //  if user exists respond with an error
           const error = new Error("That username is taken");
