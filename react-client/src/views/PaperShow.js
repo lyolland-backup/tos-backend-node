@@ -12,9 +12,10 @@ class PaperShow extends Component {
       title: "",
       abstract: "",
       category: "",
-      url_for_pdf: null,
-      url: null,
-      author: []
+      // url_for_pdf: null,
+      // url: null,
+      author: [],
+      doi: null
     },
     paperData: {
       url: "",
@@ -32,8 +33,8 @@ class PaperShow extends Component {
     const { match, history, allPaperIDs } = this.props;
     const { access_token } = this.props.match.params;
 
-    console.log("access_token", access_token);
-    console.log("allPaperIDs", allPaperIDs.includes(`${access_token}`));
+    // console.log("access_token", access_token);
+    // console.log("allPaperIDs", allPaperIDs.includes(`${access_token}`));
     // RENDER 404/ NOT FOUND ON FAILED FETCH
 
     API.fetchPaper(access_token)
@@ -47,6 +48,7 @@ class PaperShow extends Component {
       })
       .then(paper => {
         this.setState({
+          mounted: true,
           paper: {
             title: paper.data.attributes.title,
             abstract: paper.data.attributes.abstract,
@@ -54,7 +56,7 @@ class PaperShow extends Component {
             author: paper.data.attributes.user.username,
             authorID: paper.data.attributes.user.id,
             doi: paper.data.attributes.doi,
-            id: paper.data.attributes.id,
+            id: paper.data.attributes.id
           },
           review: {
             ...this.state.review,
@@ -66,7 +68,14 @@ class PaperShow extends Component {
       });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    return this.state.paper.doi !== null && prevState.paper.doi === null
+      ? this.fetchDOI(this.state.paper.doi)
+      : null;
+  }
+
   fetchDOI = doi => {
+    console.log("the doi........", doi)
     fetch(`https://api.unpaywall.org/v2/${doi}?email=@`)
       .then(resp => resp.json())
       .then(paper => {
@@ -105,7 +114,6 @@ class PaperShow extends Component {
 
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
     const path = `/users/${authorID}`;
-    console.log("match state", this.state.matched);
     const view = !this.state.mounted ? (
       <Segment textAlign="center" style={{ height: "100vh", zIndex: "-1 " }}>
         <Dimmer active inverted>
@@ -120,6 +128,18 @@ class PaperShow extends Component {
           <h5>{category}</h5>
           <Link to={path}>{author}</Link>
           <p>{abstract}</p>
+        </div>
+
+        <div>
+          <h5>Open Access Links</h5>
+          <ul>
+            <li>
+          <a href={this.state.paperData.url}>URL</a>
+          </li>
+          <li>
+          <a href={this.state.paperData.pdf_url}>PDF</a>
+          </li>
+          </ul>
         </div>
 
         <h5>Reviews</h5>

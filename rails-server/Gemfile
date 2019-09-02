@@ -51,3 +51,5 @@ gem 'fast_jsonapi'
 gem "jwt", "~> 2.2"
 
 gem 'pry'
+
+gem 'faker'

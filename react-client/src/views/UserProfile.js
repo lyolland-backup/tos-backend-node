@@ -52,7 +52,7 @@ class UserProfile extends Component {
         }
       })
       .then(user => {
-        console.log("user", user)
+        console.log("user", user);
         this.setState({
           user: {
             username: user.data.attributes.username,
@@ -105,31 +105,34 @@ class UserProfile extends Component {
 
   render() {
     const { user, postPaperToggle, userPaperToggle } = this.state;
-    const papersView = user.usertype === "Researcher" ?      <Fragment>
-    <h5>Papers</h5>
-    {postPaperToggle ? (
-      <PostPaper
-        addPaperToggle={this.addPaperToggle}
-        user_id={user.id}
-        userPostsPaper={this.props.userPostsPaper}
-      />
-    ) : (
-      <Fragment>
-        {parseInt(this.props.match.params.access_token) ===
-        this.props.user.user_id ? (
-          <Button onClick={this.addPaperToggle}>add a paper</Button>
-        ) : null}
-        <Button onClick={this.showUserPaperToggle}>show papers</Button>
-      </Fragment>
-    )}
-    {userPaperToggle ? (
-      <UserPapersContainer
-        userPapers={this.props.userPapers(
-          this.props.match.params.access_token
-        )}
-      />
-    ) : null}
-  </Fragment> : null;
+    const papersView =
+      user.usertype === "Researcher" ? (
+        <Fragment>
+          <h5>Papers</h5>
+          {postPaperToggle ? (
+            <PostPaper
+              addPaperToggle={this.addPaperToggle}
+              user_id={user.id}
+              userPostsPaper={this.props.userPostsPaper}
+            />
+          ) : (
+            <Fragment>
+              {parseInt(this.props.match.params.access_token) ===
+              this.props.user.user_id ? (
+                <Button onClick={this.addPaperToggle}>add a paper</Button>
+              ) : null}
+              <Button onClick={this.showUserPaperToggle}>show papers</Button>
+            </Fragment>
+          )}
+          {userPaperToggle ? (
+            <UserPapersContainer
+              userPapers={this.props.userPapers(
+                this.props.match.params.access_token
+              )}
+            />
+          ) : null}
+        </Fragment>
+      ) : null;
     return (
       <div className="user-profile-container">
         <h1>{user.username}</h1>
@@ -175,7 +178,7 @@ class UserProfile extends Component {
             ) : null}
           </Fragment>
         )}
-    {papersView}
+        {papersView}
         <h5>Reviews</h5>
         <h5>Journal Clubs</h5>
       </div>

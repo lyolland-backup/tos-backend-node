@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
+var doiRegex = require('doi-regex');
 
 const options = [
   { key: "c", text: "Chemistry", value: "Chemistry" },
@@ -31,9 +32,15 @@ class PostPaper extends Component {
   };
 
   handleSubmit = () => {
+    if (!this.validate()) return
     this.props.userPostsPaper(this.state.paper);
     this.props.addPaperToggle();
   };
+
+  validate = () => {
+    const {doi, title, abstract, category} = this.state.paper
+    return (doiRegex({exact: true}).test(doi) || doiRegex.declared({exact: true}).test(doi)) && title.length > 5 && abstract.length > 20 && category.length !==0
+  }
 
   render() {
     return (

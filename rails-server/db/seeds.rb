@@ -6,23 +6,26 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
-
-
-
-# User.create!([
-#     { username: "lawrence", password: "123", usertype: true, bio: "i like to study xyz" },
-#     { username: "123", password: "123", usertype: true, bio: "xyz is good"  },
-#     { username: "456", password: "456", usertype: false, bio: "this is my bio"  },
-#     { username: "789", password: "789", usertype: false, bio: "" },
-#     { username: "000", password: "000", usertype: false, bio: "" }
-#     ])
-
-Paper.create!([
-    { title: "title of paper", abstract: "here's another paper with some content", user_id: 1, category: "Biology"}
+User.create!([
+    { username: "lawrence", password: "123", usertype: true, bio: Faker::Movies::Ghostbusters.quote },
+    { username: "peer", password: "123", usertype: false, bio: Faker::Movies::Ghostbusters.quote },
     ])
 
 
-# Review.create!([
-#     {content: "this paper is great", user_id: 1, paper_id: 1}
-#     ])
+10.times do 
+    Paper.create({
+        title: Faker::Hipster.sentence,
+        abstract: Faker::Hipster.paragraph(sentence_count: 3),
+        category: ["Biology", "Physics", "Chemistry"][rand(3)],
+        doi: "10.1016/j.cell.2015.02.015",
+        user_id: 1
+    })
+end 
+
+5.times do 
+    Review.create({
+        content: Faker::Hipster.paragraph(sentence_count: 2),
+        paper_id: 1,
+        user_id: 1
+    })
+end 
