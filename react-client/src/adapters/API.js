@@ -90,8 +90,8 @@ const signInUser = user => {
 
 const fetchUser = id => {
   return fetch(usersURL + "/" + id)
-    .then(jsonify)
-    .catch(handleServerError);
+    // .then(jsonify)
+    // .catch(handleServerError);
 };
 
 const fetchAllUsers = () => {
@@ -107,7 +107,7 @@ const fetchAllPapers = () => {
 };
 
 const fetchPaper = id => {
-  return fetch(papersURL + "/" + id).then(jsonify)
+  return fetch(papersURL + "/" + id)
 };
 
 const postPaper = paper => {

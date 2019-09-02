@@ -2,14 +2,18 @@ import React, { Component, Fragment } from "react";
 import API from "../adapters/API";
 import { Link, withRouter } from "react-router-dom";
 import ReviewContainer from "../containers/ReviewsContainer";
+
+import { Segment, Dimmer, Loader } from "semantic-ui-react";
+
 class PaperShow extends Component {
   state = {
+    mounted: false,
     paper: {
       title: "",
       abstract: "",
       category: "",
-      url_for_pdf: "",
-      url: "",
+      url_for_pdf: null,
+      url: null,
       author: []
     },
     paperData: {
@@ -21,23 +25,26 @@ class PaperShow extends Component {
       paper_id: "",
       user_id: ""
     },
-    paperReviews: [],
-    matched: ''
+    paperReviews: []
   };
 
   componentDidMount() {
     const { match, history, allPaperIDs } = this.props;
     const { access_token } = this.props.match.params;
 
-    console.log("access_token", access_token)
-    console.log("allPaperIDs", allPaperIDs.includes(`${access_token}`))
-    this.setState({
-      matched: allPaperIDs.includes(`${access_token}`)
-    }) // ???
-
+    console.log("access_token", access_token);
+    console.log("allPaperIDs", allPaperIDs.includes(`${access_token}`));
     // RENDER 404/ NOT FOUND ON FAILED FETCH
 
     API.fetchPaper(access_token)
+      .then(response => {
+        if (!response.ok) {
+          history.push("/404");
+          throw response;
+        } else if (response.ok) {
+          return response.json();
+        }
+      })
       .then(paper => {
         this.setState({
           paper: {
@@ -47,7 +54,7 @@ class PaperShow extends Component {
             author: paper.data.attributes.user.username,
             authorID: paper.data.attributes.user.id,
             doi: paper.data.attributes.doi,
-            id: paper.data.attributes.id
+            id: paper.data.attributes.id,
           },
           review: {
             ...this.state.review,
@@ -57,16 +64,12 @@ class PaperShow extends Component {
           paperReviews: paper.data.attributes.reviews.map(p => p)
         });
       });
-
-    // .then(
-    // const { allPaperIDs, history } = this.props;
-    // const { access_token } = this.props.match.params;)
   }
+
   fetchDOI = doi => {
     fetch(`https://api.unpaywall.org/v2/${doi}?email=@`)
       .then(resp => resp.json())
       .then(paper => {
-        console.log("in the request :O =>>>>");
         this.setState({
           paperData: {
             url: paper.best_oa_location.url,
@@ -102,8 +105,14 @@ class PaperShow extends Component {
 
     // const authors = author.map((a, idx) => <AuthorList key={idx} name={a} />);
     const path = `/users/${authorID}`;
-    console.log("match state", this.state.matched)
-    return (
+    console.log("match state", this.state.matched);
+    const view = !this.state.mounted ? (
+      <Segment textAlign="center" style={{ height: "100vh", zIndex: "-1 " }}>
+        <Dimmer active inverted>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
+      </Segment>
+    ) : (
       <div className="paper-show-container">
         <div>
           <h1>{title}</h1>
@@ -126,6 +135,7 @@ class PaperShow extends Component {
         <ReviewContainer paperReviews={this.state.paperReviews} />
       </div>
     );
+    return view;
   }
 }
 

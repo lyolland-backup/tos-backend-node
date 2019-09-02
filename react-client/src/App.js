@@ -49,7 +49,7 @@ class App extends Component {
     API.fetchAllUsers().then(data => {
       this.setState({
         allUsers: data.data.map(user => user.id)
-      })
+      });
     });
     API.fetchAllPapers().then(data => {
       data.data.map(paper => {
@@ -66,7 +66,7 @@ class App extends Component {
               category: paper.attributes.category
             }
           ],
-          allPaperIDs: [ ...this.state.allPaperIDs, paper.id] // will grab ids from paper object in refactor
+          allPaperIDs: [...this.state.allPaperIDs, paper.id] // will grab ids from paper object in refactor
         });
       });
     });
@@ -90,7 +90,7 @@ class App extends Component {
   submitSignUp = user => {
     console.log("user object => during sign up 🤓");
     if (this.validateUserForm(user)) {
-      console.log("signing up ... 🤓");
+      console.log("signing up ... 🤓", user);
       this.setState({
         loggingUser: true
       });
@@ -125,15 +125,17 @@ class App extends Component {
       this.setState({
         loggingUser: true
       });
-      API.signInUser(user).then(user => {
+      API.signInUser(user).then(u => {
+        // debugger
+        console.log("who is this user??? 🐛", u);
         setTimeout(() => {
           this.setState({
             loggingUser: false,
             user: {
-              username: user.data.attributes.username,
-              user_id: user.data.attributes.id,
-              usertype: user.data.attributes.usertype ? "Researcher" : "Peer",
-              bio: user.data.attributes.bio
+              username: u.data.attributes.username,
+              user_id: u.data.attributes.id,
+              usertype: u.data.attributes.usertype ? "Researcher" : "Peer",
+              bio: u.data.attributes.bio
             }
           });
           console.log("here are the props => 🎁", this.props);
@@ -141,6 +143,7 @@ class App extends Component {
         }, 1000);
       });
     } else {
+      console.log("failed to sign in");
       // return an alert when sign in fails validation step - use the error handler on back end
     }
   };
@@ -201,10 +204,11 @@ class App extends Component {
     // }
   };
 
-
   usersPostsReview = review => {
-    API.postReview(review).then(review => console.log("here is the returned review object", review))
-  }
+    API.postReview(review).then(review =>
+      console.log("here is the returned review object", review)
+    );
+  };
 
   showMenu = () => {
     this.setState({

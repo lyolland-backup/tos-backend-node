@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import {withRouter} from "react-router-dom"
+import { withRouter } from "react-router-dom";
 import UserProfileImage from "../components/UserProfileImage";
 import UserRating from "../components/UserRating";
 import UserPapersContainer from "../containers/UserPapersContainer";
@@ -28,35 +28,46 @@ class UserProfile extends Component {
     };
   }
   componentDidMount() {
-    const { match, history, allUsers } = this.props;
-    console.log(this.props)
-    !allUsers.includes(match.params.access_token) ? history.push("/404") : this.setUserData();
+    const { access_token } = this.props.match.params;
+    this.setUserData(access_token);
   }
 
   componentDidUpdate() {
-    return parseInt(this.props.match.params.access_token) !== this.state.user.id
+    const { access_token } = this.props.match.params;
+    return parseInt(access_token) !== this.state.user.id
       ? this.setUserData()
       : false;
   }
 
   setUserData = () => {
+    const { match, history } = this.props;
     const { access_token } = this.props.match.params;
-    API.fetchUser(access_token).then(user => {
-      this.setState({
-        user: {
-          username: user.data.attributes.username,
-          usertype: user.data.attributes.usertype ? "Researcher" : "Peer",
-          bio: user.data.attributes.bio,
-          id: user.data.attributes.id
-        },
-        userPapers: this.props.allPapers,
-        editBioToggle:
-          parseInt(this.props.match.params.access_token) ===
-          this.props.user.user_id
-            ? false
-            : null
+    API.fetchUser(access_token)
+      .then(response => {
+        if (!response.ok) {
+          history.push("/404");
+          throw response;
+        } else if (response.ok) {
+          return response.json();
+        }
+      })
+      .then(user => {
+        console.log("user", user)
+        this.setState({
+          user: {
+            username: user.data.attributes.username,
+            usertype: user.data.attributes.usertype ? "Researcher" : "Peer",
+            bio: user.data.attributes.bio,
+            id: user.data.attributes.id
+          },
+          userPapers: this.props.allPapers,
+          editBioToggle:
+            parseInt(this.props.match.params.access_token) ===
+            this.props.user.user_id
+              ? false
+              : null
+        });
       });
-    });
   };
 
   handleBioChange = () => {
@@ -94,8 +105,31 @@ class UserProfile extends Component {
 
   render() {
     const { user, postPaperToggle, userPaperToggle } = this.state;
-
-
+    const papersView = user.usertype === "Researcher" ?      <Fragment>
+    <h5>Papers</h5>
+    {postPaperToggle ? (
+      <PostPaper
+        addPaperToggle={this.addPaperToggle}
+        user_id={user.id}
+        userPostsPaper={this.props.userPostsPaper}
+      />
+    ) : (
+      <Fragment>
+        {parseInt(this.props.match.params.access_token) ===
+        this.props.user.user_id ? (
+          <Button onClick={this.addPaperToggle}>add a paper</Button>
+        ) : null}
+        <Button onClick={this.showUserPaperToggle}>show papers</Button>
+      </Fragment>
+    )}
+    {userPaperToggle ? (
+      <UserPapersContainer
+        userPapers={this.props.userPapers(
+          this.props.match.params.access_token
+        )}
+      />
+    ) : null}
+  </Fragment> : null;
     return (
       <div className="user-profile-container">
         <h1>{user.username}</h1>
@@ -141,30 +175,7 @@ class UserProfile extends Component {
             ) : null}
           </Fragment>
         )}
-        <h5>Papers</h5>
-        {postPaperToggle ? (
-          <PostPaper
-            addPaperToggle={this.addPaperToggle}
-            user_id={user.id}
-            userPostsPaper={this.props.userPostsPaper}
-          />
-        ) : (
-          <Fragment>
-            {parseInt(this.props.match.params.access_token) ===
-            this.props.user.user_id ? (
-              <Button onClick={this.addPaperToggle}>add a paper</Button>
-            ) : null}
-            <Button onClick={this.showUserPaperToggle}>show papers</Button>
-          </Fragment>
-        )}
-        {userPaperToggle ? (
-          <UserPapersContainer
-            userPapers={this.props.userPapers(
-              this.props.match.params.access_token
-            )}
-          />
-        ) : null}
-
+    {papersView}
         <h5>Reviews</h5>
         <h5>Journal Clubs</h5>
       </div>

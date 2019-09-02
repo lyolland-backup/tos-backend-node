@@ -1,0 +1,5 @@
+- [x] define by user type as to who can add papers
+- [] retrieve paper information from API
+    -[] update all papers with a real DOI 
+        - [] show pdf link
+        - [] show landing page 
