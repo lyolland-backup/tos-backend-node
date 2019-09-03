@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Button, Menu, Icon } from "semantic-ui-react";
+import { NavLink } from "react-router-dom";
+
 
 class MenuBar extends Component {
   handleShowMenu = () => {

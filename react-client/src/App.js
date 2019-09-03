@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import API from "./adapters/API";
 import MenuBar from "./components/MenuBar";
 import Menu from "./views/Menu";
@@ -21,7 +21,8 @@ class App extends Component {
     menu: false,
     formError: false,
     allUsers: [],
-    allPaperIDs: []
+    allPaperIDs: [],
+    updatingRating: false
   };
 
   componentDidMount() {
@@ -46,6 +47,7 @@ class App extends Component {
         );
       }
     });
+
     API.fetchAllUsers().then(data => {
       this.setState({
         allUsers: data.data.map(user => user.id)
@@ -54,7 +56,8 @@ class App extends Component {
     API.fetchAllPapers().then(data => {
       data.data.map(paper => {
         // console.log("all the papers", paper)
-        this.setState({
+        // debugger
+        return this.setState({
           allPapers: [
             ...this.state.allPapers,
             {
@@ -63,7 +66,8 @@ class App extends Component {
               title: paper.attributes.title,
               abstract: paper.attributes.abstract,
               doi: paper.attributes.doi,
-              category: paper.attributes.category
+              category: paper.attributes.category,
+              rating: paper.attributes.rating
             }
           ],
           allPaperIDs: [...this.state.allPaperIDs, paper.id] // will grab ids from paper object in refactor
@@ -208,7 +212,8 @@ class App extends Component {
               title: paper.data.attributes.title,
               abstract: paper.data.attributes.abstract,
               doi: paper.data.attributes.doi,
-              category: paper.data.attributes.category
+              category: paper.data.attributes.category,
+              rating: 0
             }
           ]
         });
@@ -225,6 +230,15 @@ class App extends Component {
     );
   };
 
+  updateRating = (value, id) => {
+    API.updatePaperRating(value, id);
+    return this.state.allPapers.forEach(paper => {
+      if (paper.id === id) {
+        paper.rating = value
+      }
+    });
+  };
+
   showMenu = () => {
     this.setState({
       menu: !this.state.menu
@@ -233,6 +247,38 @@ class App extends Component {
 
   filterPapers = token =>
     this.state.allPapers.filter(paper => paper.user_id === parseInt(token));
+
+  sortPapers = sortType => {
+    console.log(sortType);
+    switch (sortType) {
+      case "Ascending":
+        this.setState({
+          allPapers: this.sortAscendingName(this.state.allPapers)
+        });
+        break;
+      case "Descending":
+        this.setState({
+          allPapers: this.sortDescendingName(this.state.allPapers)
+        });
+        break;
+      case "Rating":
+        this.setState({
+          allPapers: this.sortRating(this.state.allPapers)
+        });
+        break;
+    }
+  };
+
+  sortAscendingName = paper => {
+    return paper.sort((a, b) => a.title.localeCompare(b.title));
+  };
+  sortDescendingName = paper => {
+    return paper.sort((a, b) => b.title.localeCompare(a.title));
+  };
+
+  sortRating = paper => {
+    return paper.sort((a, b) => b.rating - a.rating);
+  };
 
   render() {
     return (
@@ -264,6 +310,8 @@ class App extends Component {
           allUsers={this.state.allUsers}
           allPaperIDs={this.state.allPaperIDs}
           usersPostsReview={this.usersPostsReview}
+          updateRating={this.updateRating}
+          sortPapers={this.sortPapers}
         />
       </div>
     );

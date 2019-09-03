@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component} from "react";
 import API from "../adapters/API";
 import { Link, withRouter } from "react-router-dom";
 import ReviewContainer from "../containers/ReviewsContainer";
@@ -30,7 +30,7 @@ class PaperShow extends Component {
   };
 
   componentDidMount() {
-    const { match, history, allPaperIDs } = this.props;
+    const { history } = this.props;
     const { access_token } = this.props.match.params;
 
     // console.log("access_token", access_token);
@@ -127,6 +127,7 @@ class PaperShow extends Component {
           <h2>{author}</h2>
           <h5>{category}</h5>
           <Link to={path}>{author}</Link>
+          <h5>{doi}</h5>
           <p>{abstract}</p>
         </div>
 

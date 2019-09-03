@@ -4,9 +4,11 @@ const usersURL = `${endpoint}/users`;
 const signinURL = `${endpoint}/signin`;
 
 const validateURL = `${endpoint}/validate`;
-const updateURL = `${endpoint}/users/`;
+const updateUserURL = `${endpoint}/users/`;
 
 const papersURL = `${endpoint}/papers`;
+const updatePaperURL = `${endpoint}/papers/`;
+
 const reviewsURL = `${endpoint}/reviews`;
 
 const jsonify = resp => {
@@ -69,7 +71,7 @@ const updateUser = (data, id) => {
   };
   console.log("config object => 📨", configObj);
 
-  return fetch(updateURL + id, configObj)
+  return fetch(updateUserURL + id, configObj)
     .then(jsonify)
     .catch(handleServerError);
 };
@@ -90,7 +92,7 @@ const signInUser = user => {
 
 const fetchUser = id => {
   return fetch(usersURL + "/" + id);
-  // .then(jsonify)
+  // .then(jsonify) // this has been moved to the component
   // .catch(handleServerError);
 };
 
@@ -136,6 +138,21 @@ const postReview = review => {
   return fetch(reviewsURL, configObj).then(jsonify);
 };
 
+const updatePaperRating = (value, id) => {
+  const configObj = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ rating: parseInt(value) })
+    };
+    console.log("config object => 📨", configObj);
+  
+    return fetch(updatePaperURL + id, configObj)
+      .then(jsonify)
+      .catch(handleServerError);
+  };
+
 const nodeSignUp = user => {
   const API_URL = "http://localhost:5000/auth/signup";
   console.log("user object => during in sign up method 🤓", user);
@@ -165,5 +182,6 @@ export default {
   postPaper,
   fetchAllUsers,
   postReview,
-  nodeSignUp
+  nodeSignUp,
+  updatePaperRating
 };

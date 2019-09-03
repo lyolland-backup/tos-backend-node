@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import HomeContentContainer from "../containers/HomeContentContainer";
 
 class Home extends Component {

@@ -36,9 +36,6 @@ class Api::V1::UsersController < ApplicationController
     def update
         @user = User.find(params[:id])
         @user.update(user_params)
-
-        # render json: @user, each_serializer: Api::V1::UserSerializer
-
         render(  json: { user: Api::V1::UserSerializer.new(@user)  })
     end
 

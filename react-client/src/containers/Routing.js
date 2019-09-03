@@ -21,7 +21,9 @@ const CreateRoutes = ({
   returnAllPapers,
   allUsers,
   allPaperIDs,
-  usersPostsReview
+  usersPostsReview,
+  updateRating,
+  sortPapers
 }) => {
   // console.log("the user in routes ====>", props);
   return user.username === null ? (
@@ -87,7 +89,7 @@ const CreateRoutes = ({
       <Route
         exact
         path="/papers"
-        render={() => <PaperIndex allPapers={allPapers} />}
+        render={() => <PaperIndex allPapers={allPapers} updateRating={updateRating} sortPapers={sortPapers} />}
       />
       <Route render={() => <NotFound />} />
     </Switch>

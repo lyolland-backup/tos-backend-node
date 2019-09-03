@@ -40,7 +40,7 @@ class UserProfile extends Component {
   }
 
   setUserData = () => {
-    const { match, history } = this.props;
+    const { history } = this.props;
     const { access_token } = this.props.match.params;
     API.fetchUser(access_token)
       .then(response => {
@@ -52,7 +52,6 @@ class UserProfile extends Component {
         }
       })
       .then(user => {
-        console.log("user", user);
         this.setState({
           user: {
             username: user.data.attributes.username,
@@ -121,7 +120,7 @@ class UserProfile extends Component {
               this.props.user.user_id ? (
                 <Button onClick={this.addPaperToggle}>add a paper</Button>
               ) : null}
-              <Button onClick={this.showUserPaperToggle}>show papers</Button>
+              <Button onClick={this.showUserPaperToggle}>{!userPaperToggle ? "show papers" : "hide papers"}</Button>
             </Fragment>
           )}
           {userPaperToggle ? (
@@ -138,14 +137,13 @@ class UserProfile extends Component {
         <h1>{user.username}</h1>
         <UserProfileImage username={user.username} />
         <UserRating />
-
         <h4>Bio:</h4>
         {this.state.editBioToggle ? (
           <Fragment>
             <form onSubmit={this.handleSubmit} className="bio-edit">
               <div className="form-buttons">
                 <button onClick={this.handleBioChange}>
-                  <span role="img" role="img" aria-label="discard changes">
+                  <span role="img" aria-label="discard changes">
                     🚮
                   </span>
                 </button>
