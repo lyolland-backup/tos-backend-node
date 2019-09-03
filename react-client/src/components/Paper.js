@@ -8,7 +8,7 @@ class Paper extends Component {
       rating: props.rating
     };
   }
-  
+
   handleUpRating = () => {
     console.log("👍");
     this.setState({
@@ -37,7 +37,7 @@ class Paper extends Component {
     if (rating > 0) return "positive";
     if (rating < 0) return "negative";
 
-    return "even";
+    return "even"
   };
 
   render() {
