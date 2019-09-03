@@ -17,6 +17,7 @@ class PaperIndex extends Component {
           <option value="Descending">descending</option>
           <option value="Rating">rating</option>
         </select> 
+        
         <div>
           <ul className="papers-list">{papers}</ul>
         </div>
